@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahmed Actros | أحمد أكتروس — Mercedes-Benz Actros Spare Parts (Erbil)</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts for Latin, Arabic, Kurdish Sorani, and Persian -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#070b12',
+              surface: '#0f172a',
+              card: '#111c33',
+              amber: '#f59e0b',
+              amberLight: '#fbbf24',
+              steel: '#94a3b8'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Vazirmatn', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
+            arabic: ['Noto Sans Arabic', 'Vazirmatn', 'Inter', 'sans-serif'],
+            persian: ['Vazirmatn', 'Noto Sans Arabic', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #070b12;
+      color: #f8fafc;
+      font-family: 'Inter', 'Vazirmatn', 'Noto Sans Arabic', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    html[lang="ar"] body {
+      font-family: 'Noto Sans Arabic', 'Vazirmatn', 'Inter', sans-serif;
+    }
+
+    html[lang="ckb"] body,
+    html[lang="fa"] body {
+      font-family: 'Vazirmatn', 'Noto Sans Arabic', 'Inter', sans-serif;
+    }
+
+    .industrial-grid {
+      background-image:
+        linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    .category-card {
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.55);
+      box-shadow: 0 18px 36px -14px rgba(245, 158, 11, 0.16);
+    }
+
+    .category-card.is-selected {
+      border-color: #f59e0b;
+      background-color: rgba(245, 158, 11, 0.09);
+      box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.5), 0 16px 32px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .lang-btn.is-active {
+      background-color: #f59e0b;
+      color: #090d16;
+      border-color: #f59e0b;
+      font-weight: 800;
+      box-shadow: 0 6px 18px -4px rgba(245, 158, 11, 0.55);
+    }
+
+    .ltr-num {
+      direction: ltr;
+      unicode-bidi: isolate;
+      display: inline-block;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
+
+  <!-- TOP HEADER & 5-LANGUAGE SWITCHER -->
+  <header class="sticky top-0 z-40 bg-slate-950/92 backdrop-blur-md border-b border-slate-800/90">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Identity -->
+      <a href="#top" class="flex items-center gap-3 group focus:outline-none">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-black flex items-center justify-center shadow-lg shadow-amber-500/20 shrink-0">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5" />
+            <path d="M12 3.5V12l7.2 4.3" />
+            <path d="M12 12l-7.2 4.3" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-base sm:text-lg font-extrabold tracking-tight text-white group-hover:text-amber-300 transition-colors">
+              Ahmed Actros
+            </span>
+            <span class="text-slate-600">|</span>
+            <span class="text-base sm:text-lg font-bold text-amber-400">
+              أحمد أكتروس
+            </span>
+          </div>
+          <p id="header-subtitle" class="text-xs text-slate-400">
+            Mercedes-Benz Actros Truck Spare Parts • Erbil
+          </p>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Primary navigation" class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-300">
+        <a id="nav-parts" href="#parts" class="hover:text-amber-400 transition-colors">Parts &amp; Services</a>
+        <a id="nav-quote" href="#quote" class="hover:text-amber-400 transition-colors">Part Quote Builder</a>
+        <a id="nav-store" href="#store" class="hover:text-amber-400 transition-colors">Store &amp; Hours</a>
+        <a id="nav-coverage" href="#coverage" class="hover:text-amber-400 transition-colors">Service Areas</a>
+      </nav>
+
+      <!-- 5-Language Switcher -->
+      <div role="group" aria-label="Language switcher" class="flex items-center gap-1.5 bg-slate-900/95 p-1 rounded-xl border border-slate-800">
+        <button type="button" data-lang="en" class="lang-btn is-active px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 border border-transparent hover:text-white transition-all">
+          EN
+        </button>
+        <button type="button" data-lang="ku" dir="rtl" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 border border-transparent hover:text-white transition-all">
+          کوردی
+        </button>
+        <button type="button" data-lang="ar" dir="rtl" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 border border-transparent hover:text-white transition-all">
+          عربي
+        </button>
+        <button type="button" data-lang="tr" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 border border-transparent hover:text-white transition-all">
+          TR
+        </button>
+        <button type="button" data-lang="fa" dir="rtl" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-300 border border-transparent hover:text-white transition-all">
+          فارسی
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" class="flex-1">
+
+    <!-- WIDESCREEN BANNER SHOWCASE (IMG_9568.jpeg with SVG/Data-URI Guarantee + Lightbox Trigger) -->
+    <section aria-label="Ahmed Actros Widescreen Banner" class="border-b border-slate-800/80 bg-slate-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+        <div class="rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+          <button
+            type="button"
+            id="open-banner-btn"
+            class="block w-full text-start group focus:outline-none focus:ring-2 focus:ring-amber-400"
+            aria-label="Open full-view banner preview"
+          >
+            <img
+              id="brand-banner-img"
+              src="IMG_9568.jpeg"
+              alt="AHMED ACTROS | أحمد أكتروس — Mercedes-Benz Actros Truck Spare Parts & Axles — +964 750 461 8256 - +964 784 444 2365"
+              class="w-full h-auto max-h-[420px] object-cover block transition-transform duration-300 group-hover:scale-[1.01]"
+            />
+          </button>
+
+          <div class="px-4 sm:px-6 py-3 bg-slate-900/95 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+            <div class="flex flex-wrap items-center gap-2 text-slate-300">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold">
+                IMG_9568.jpeg
+              </span>
+              <span>
+                <span id="banner-caption-prefix">AHMED ACTROS | أحمد أكتروس</span>
+                <span class="mx-1.5 text-slate-600">•</span>
+                <span class="ltr-num font-mono text-amber-200">+964 750 461 8256</span>
+                <span class="mx-1.5 text-slate-600">-</span>
+                <span class="ltr-num font-mono text-amber-200">+964 784 444 2365</span>
+              </span>
+            </div>
+            <button
+              type="button"
+              id="banner-expand-trigger"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 hover:text-amber-300 font-bold transition-colors"
+            >
+              <span id="banner-expand-text">Full Banner View</span>
+              <span aria-hidden="true">⤢</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden border-b border-slate-800/80 industrial-grid">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <!-- Left / Main Hero Copy -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span id="hero-badge">Auto Parts Market • North Industrial Area, In Safeen, Erbil, 44001, IQ</span>
+            </div>
+
+            <div class="space-y-2">
+              <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+                Ahmed Actros <span class="text-amber-400">|</span> <span class="text-amber-400">أحمد أكتروس</span>
+              </h1>
+              <p id="hero-tagline" class="text-base sm:text-xl font-bold text-slate-200">
+                Mercedes-Benz Actros Heavy-Duty Truck Spare Parts &amp; Components
+              </p>
+            </div>
+
+            <p id="hero-description" class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+              Ahmed Actros Premium Mercedes-Benz Actros truck spare parts. Located in the auto parts market. High quality, great prices, and reliable service to keep your trucks moving. Visit us today!
+            </p>
+
+            <!-- Primary Action Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <a
+                href="https://wa.me/9647504618256"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all"
+              >
+                <span id="hero-whatsapp-btn">WhatsApp Inquiry</span>
+                <span class="ltr-num font-mono text-xs opacity-90">+964 750 461 8256</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href="https://wa.me/9647844442365"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 font-bold text-xs sm:text-sm transition-all"
+              >
+                <span id="hero-whatsapp2-btn">WhatsApp Line 2</span>
+                <span class="ltr-num font-mono text-xs">+964 784 444 2365</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                href="tel:+9647504618256"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition-all"
+              >
+                <span id="hero-call1-label">Call</span>
+                <span class="ltr-num font-mono">+964 750 461 8256</span>
+              </a>
+
+              <a
+                href="tel:+9647844442365"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-amber-300 font-bold text-xs sm:text-sm transition-all"
+              >
+                <span id="hero-call2-label">Call</span>
+                <span class="ltr-num font-mono">+964 784 444 2365</span>
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@actros.erbil"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all"
+              >
+                <span id="hero-tiktok-btn">TikTok</span>
+                <span class="ltr-num font-mono text-amber-300">@actros.erbil</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right / Quick Specs & Copyable Contact Card -->
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl bg-slate-900/95 border border-slate-800 p-6 shadow-2xl space-y-5">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                  <div id="card-flagship-label" class="text-xs uppercase tracking-wider font-bold text-amber-400">
+                    Auto Parts Market
+                  </div>
+                  <div id="card-flagship-title" class="text-lg font-extrabold text-white">
+                    Mercedes-Benz Actros Specialist
+                  </div>
+                </div>
+                <span id="card-heavy-badge" class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                  HEAVY DUTY
+                </span>
+              </div>
+
+              <div class="space-y-3.5 text-sm">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <div id="hero-addr-label" class="text-xs text-slate-400">Address</div>
+                    <div class="text-slate-200 font-medium">North Industrial Area, In Safeen, Erbil, 44001, IQ</div>
+                  </div>
+                  <button
+                    type="button"
+                    data-copy-target="address"
+                    class="copy-action-btn shrink-0 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                  >
+                    Copy
+                  </button>
+                </div>
+
+                <div class="flex items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
+                  <div>
+                    <div id="hero-phone1-label" class="text-xs text-slate-400">Primary Phone &amp; WhatsApp</div>
+                    <div class="text-amber-300 font-bold text-sm">
+                      <span class="ltr-num font-mono">+964 750 461 8256</span>
+                      <span class="text-slate-400 font-normal"> (</span><span class="ltr-num font-mono text-slate-200">0750 461 8256</span><span class="text-slate-400 font-normal">)</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    data-copy-target="phone1"
+                    class="copy-action-btn shrink-0 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                  >
+                    Copy
+                  </button>
+                </div>
+
+                <div class="flex items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
+                  <div>
+                    <div id="hero-phone2-label" class="text-xs text-slate-400">Second Line &amp; WhatsApp</div>
+                    <div class="text-amber-300 font-bold text-sm">
+                      <span class="ltr-num font-mono">+964 784 444 2365</span>
+                      <span class="text-slate-400 font-normal"> (</span><span class="ltr-num font-mono text-slate-200">0784 444 2365</span><span class="text-slate-400 font-normal">)</span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    data-copy-target="phone2"
+                    class="copy-action-btn shrink-0 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                  >
+                    Copy
+                  </button>
+                </div>
+
+                <div class="pt-2 border-t border-slate-800/80">
+                  <div id="hero-hours-label" class="text-xs text-slate-400">Hours</div>
+                  <div id="hero-hours-value" class="text-slate-200 font-semibold text-sm">
+                    Sunday – Thursday, Saturday: <span class="ltr-num font-mono">07:00 – 19:00</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-2 flex flex-wrap gap-2 text-xs font-semibold">
+                <span id="badge-instore" class="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-emerald-300">
+                  ✓ In-Store Shopping
+                </span>
+                <span id="badge-parking" class="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-emerald-300">
+                  ✓ Free Parking Lot
+                </span>
+                <span id="badge-cards" class="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-amber-300">
+                  ✓ Mastercard &amp; Visa
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIX CORE SPARE PARTS & SERVICE CATEGORIES -->
+    <section id="parts" class="py-14 sm:py-16 border-b border-slate-800/80 bg-slate-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+          <div>
+            <p id="parts-kicker" class="text-xs font-extrabold uppercase tracking-widest text-amber-400 mb-2">
+              Heavy Truck Components
+            </p>
+            <h2 id="parts-heading" class="text-2xl sm:text-4xl font-black text-white">
+              Spare Parts &amp; Service Categories
+            </h2>
+            <p id="parts-subheading" class="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">
+              Click any category card below to highlight and load it directly into the WhatsApp Quote Builder.
+            </p>
+          </div>
+          <a
+            href="#quote"
+            id="parts-jump-quote"
+            class="inline-flex items-center gap-2 self-start md:self-auto px-4 py-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 text-sm font-bold transition-colors"
+          >
+            <span>Go to Quote Builder</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+
+        <div id="categories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Populated dynamically via JavaScript from the 6 core Actros categories -->
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE QUOTE BUILDER & STORE DETAILS -->
+    <section id="quote" class="py-14 sm:py-16 border-b border-slate-800/80 bg-slate-900/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+          <!-- Quote Builder Form (7 cols) -->
+          <div class="lg:col-span-7 rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 shadow-xl">
+            <div class="mb-6">
+              <p id="quote-kicker" class="text-xs font-extrabold uppercase tracking-widest text-amber-400 mb-1">
+                Instant WhatsApp Quote
+              </p>
+              <h2 id="quote-heading" class="text-2xl sm:text-3xl font-black text-white">
+                Part Quote Builder
+              </h2>
+            </div>
+
+            <form id="quote-form" class="space-y-5" novalidate>
+              <div>
+                <label for="quote-category" id="label-category" class="block text-sm font-bold text-slate-200 mb-2">
+                  Part Category
+                </label>
+                <select
+                  id="quote-category"
+                  class="w-full rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 px-4 py-3 text-sm text-white outline-none transition-all"
+                ></select>
+              </div>
+
+              <div>
+                <label for="quote-part-note" id="label-part-note" class="block text-sm font-bold text-slate-200 mb-2">
+                  Actros Model / Chassis / Part Note
+                </label>
+                <textarea
+                  id="quote-part-note"
+                  rows="3"
+                  placeholder="e.g. Actros 1841 / MP4 — part name, OEM/aftermarket, or quantity"
+                  class="w-full rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                ></textarea>
+              </div>
+
+              <div>
+                <label for="quote-customer" id="label-customer" class="block text-sm font-bold text-slate-200 mb-2">
+                  Customer Name / Phone
+                </label>
+                <input
+                  type="text"
+                  id="quote-customer"
+                  placeholder="e.g. Karwan • +964 750 ..."
+                  class="w-full rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                />
+              </div>
+
+              <!-- Live Message Preview -->
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                  <span id="label-preview" class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    WhatsApp Message Preview
+                  </span>
+                  <div class="flex items-center gap-3 text-xs font-mono">
+                    <span class="ltr-num text-amber-400">wa.me/9647504618256</span>
+                    <span class="text-slate-600">•</span>
+                    <span class="ltr-num text-emerald-400">wa.me/9647844442365</span>
+                  </div>
+                </div>
+                <pre
+                  id="quote-preview"
+                  class="w-full rounded-xl bg-slate-950 border border-slate-800 p-4 text-xs sm:text-sm text-amber-100 whitespace-pre-wrap break-words font-sans leading-relaxed"
+                ></pre>
+              </div>
+
+              <!-- Action Buttons: Send via WhatsApp (Line 1 & Line 2) & Copy Quote Message -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <a
+                  id="send-whatsapp-quote-btn"
+                  href="https://wa.me/9647504618256"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all"
+                >
+                  <span id="send-wa-label">WhatsApp 1</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <a
+                  id="send-whatsapp2-quote-btn"
+                  href="https://wa.me/9647844442365"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-900/90 hover:bg-emerald-800 border border-emerald-500/40 text-emerald-200 font-extrabold text-xs sm:text-sm transition-all"
+                >
+                  <span id="send-wa2-label">WhatsApp 2</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <button
+                  type="button"
+                  id="copy-quote-btn"
+                  class="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-amber-500/20 transition-all"
+                >
+                  <span id="copy-quote-label">Copy Quote Message</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Store Details & Hours Card (5 cols) -->
+          <div id="store" class="lg:col-span-5 rounded-2xl bg-slate-900 border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
+            <div>
+              <p id="store-kicker" class="text-xs font-extrabold uppercase tracking-widest text-amber-400 mb-1">
+                Visit Our Store
+              </p>
+              <h2 id="store-heading" class="text-2xl font-black text-white">
+                Store Details &amp; Hours
+              </h2>
+            </div>
+
+            <div class="space-y-4 text-sm">
+              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
+                <div>
+                  <div id="store-addr-label" class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+                    Address
+                  </div>
+                  <div class="text-white font-semibold">
+                    North Industrial Area, In Safeen, Erbil, 44001, IQ
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  data-copy-target="address"
+                  class="copy-action-btn shrink-0 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                >
+                  Copy
+                </button>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+                <div id="store-phones-label" class="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Phones &amp; WhatsApp
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <a href="tel:+9647504618256" class="ltr-num font-mono text-amber-300 hover:text-amber-200 font-bold">
+                      +964 750 461 8256
+                    </a>
+                    <span class="text-xs text-slate-400">(<span class="ltr-num font-mono">0750 461 8256</span>)</span>
+                    <a
+                      href="https://wa.me/9647504618256"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 text-xs font-bold"
+                    >
+                      WA ↗
+                    </a>
+                  </div>
+                  <button
+                    type="button"
+                    data-copy-target="phone1"
+                    class="copy-action-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                  >
+                    Copy
+                  </button>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-2.5 border-t border-slate-800/80">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <a href="tel:+9647844442365" class="ltr-num font-mono text-amber-300 hover:text-amber-200 font-bold">
+                      +964 784 444 2365
+                    </a>
+                    <span class="text-xs text-slate-400">(<span class="ltr-num font-mono">0784 444 2365</span>)</span>
+                    <a
+                      href="https://wa.me/9647844442365"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="px-2 py-0.5 rounded bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/25 text-xs font-bold"
+                    >
+                      WA ↗
+                    </a>
+                  </div>
+                  <button
+                    type="button"
+                    data-copy-target="phone2"
+                    class="copy-action-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-colors"
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+                <div id="store-hours-label" class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                  Opening Hours
+                </div>
+                <div class="flex items-center justify-between gap-2 text-slate-200 font-semibold py-1">
+                  <span id="store-open-days">Sunday – Thursday, Saturday</span>
+                  <span class="ltr-num font-mono text-amber-400">07:00 – 19:00</span>
+                </div>
+                <div class="flex items-center justify-between gap-2 text-slate-400 py-1 border-t border-slate-800/70">
+                  <span id="store-friday-label">Friday</span>
+                  <span id="store-friday-status" class="text-rose-400 font-semibold">Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- REGIONAL SERVICE AREAS -->
+    <section id="coverage" class="py-14 sm:py-16 bg-slate-950">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-8">
+          <p id="coverage-kicker" class="text-xs font-extrabold uppercase tracking-widest text-amber-400 mb-1">
+            Domestic &amp; Cross-Border Reach
+          </p>
+          <h2 id="coverage-heading" class="text-2xl sm:text-3xl font-black text-white">
+            Regional Service Areas
+          </h2>
+          <p id="coverage-desc" class="mt-2 text-sm sm:text-base text-slate-400">
+            Serving truck owners, workshops, and transport fleets across Iraq, Kurdistan Region, Iran, and Türkiye.
+          </p>
+        </div>
+
+        <div id="service-areas-list" class="flex flex-wrap gap-2.5">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BANNER LIGHTBOX MODAL -->
+  <div
+    id="banner-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/90 backdrop-blur-sm p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="banner-modal-title"
+  >
+    <div class="max-w-5xl w-full rounded-2xl bg-slate-900 border border-slate-700 overflow-hidden shadow-2xl">
+      <div class="flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-800">
+        <div>
+          <h3 id="banner-modal-title" class="text-base sm:text-lg font-extrabold text-white">
+            Ahmed Actros | أحمد أكتروس — Banner Preview
+          </h3>
+          <p class="text-xs text-slate-400">
+            <span class="ltr-num font-mono">+964 750 461 8256</span>
+            <span class="mx-1.5">•</span>
+            <span class="ltr-num font-mono">+964 784 444 2365</span>
+          </p>
+        </div>
+        <button
+          type="button"
+          id="close-banner-btn"
+          class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-colors"
+        >
+          <span id="banner-close-text">✕ Close</span>
+        </button>
+      </div>
+      <div class="p-4 sm:p-6 bg-slate-950">
+        <img
+          id="banner-modal-img"
+          src="IMG_9568.jpeg"
+          alt="Full view of Ahmed Actros banner"
+          class="w-full h-auto max-h-[72vh] object-contain mx-auto rounded-xl border border-slate-800"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION BANNER -->
+  <div
+    id="toast-banner"
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-5 end-5 z-50 hidden items-center gap-2 px-4 py-3 rounded-xl bg-amber-500 text-slate-950 font-extrabold text-sm shadow-2xl border border-amber-300"
+  >
+    <span aria-hidden="true">✓</span>
+    <span id="toast-message">Copied!</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-7">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400">
+      <div class="font-semibold text-slate-200">
+        Ahmed Actros | أحمد أكتروس — North Industrial Area, In Safeen, Erbil, 44001, IQ
+      </div>
+      <div class="text-slate-300">
+        <span class="ltr-num font-mono">+964 750 461 8256</span>
+        <span class="mx-2 text-slate-600">•</span>
+        <span class="ltr-num font-mono">+964 784 444 2365</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /**
+     * Generates a crisp widescreen SVG data-URI representing the "AHMED ACTROS / أحمد أكتروس"
+     * banner with truck silhouette, Erbil citadel silhouette, street grid, and phone numbers
+     * so it always renders cleanly even when external file paths aren't served locally.
+     */
+    function buildFallbackBannerDataUri() {
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 440" width="1400" height="440">
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#060911"/>
+              <stop offset="55%" stop-color="#0b1322"/>
+              <stop offset="100%" stop-color="#070c16"/>
+            </linearGradient>
+            <linearGradient id="amberGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#fde68a"/>
+            </linearGradient>
+          </defs>
+          <rect width="1400" height="440" fill="url(#bgGrad)"/>
+          <!-- Map / City Grid Lines -->
+          <g stroke="#1e293b" stroke-width="1.2" opacity="0.75">
+            <path d="M0 70 H1400 M0 150 H1400 M0 230 H1400 M0 310 H1400 M0 390 H1400"/>
+            <path d="M120 0 V440 M280 0 V440 M440 0 V440 M600 0 V440 M760 0 V440 M920 0 V440 M1080 0 V440 M1240 0 V440"/>
+            <circle cx="980" cy="220" r="145" fill="none" stroke="#253349" stroke-width="1.5"/>
+            <circle cx="980" cy="220" r="85" fill="none" stroke="#253349" stroke-width="1.2"/>
+          </g>
+          <!-- Road & Erbil Citadel Silhouette on Left -->
+          <path d="M0 378 L460 356 L520 440 L0 440 Z" fill="#111827"/>
+          <line x1="20" y1="408" x2="430" y2="382" stroke="#f59e0b" stroke-width="4" stroke-dasharray="22 16"/>
+          <path d="M24 358 V332 H44 V342 H62 V324 H84 V342 H102 V330 H124 V358 Z" fill="#b45309" opacity="0.85"/>
+          <path d="M350 355 V334 H368 V344 H386 V328 H406 V344 H422 V355 Z" fill="#b45309" opacity="0.85"/>
+          <!-- Badge & Stylized Actros Truck -->
+          <g transform="translate(56, 46)">
+            <path d="M18 38 Q165 4 312 38 L296 86 Q165 60 34 86 Z" fill="#0f172a" stroke="#f59e0b" stroke-width="3"/>
+            <text x="165" y="64" text-anchor="middle" fill="#f8fafc" font-family="Inter, Arial, sans-serif" font-weight="900" font-size="27" letter-spacing="2">AHMED ACTROS</text>
+          </g>
+          <g transform="translate(52, 118)">
+            <!-- Trailer -->
+            <rect x="12" y="18" width="215" height="126" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="3"/>
+            <path d="M36 92 H182 L172 80 V88 H36 Z" fill="#f59e0b"/>
+            <!-- Truck Cab -->
+            <path d="M234 54 L298 54 L322 98 L322 144 L234 144 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+            <rect x="246" y="66" width="52" height="32" rx="5" fill="#1e293b"/>
+            <circle cx="282" cy="118" r="14" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
+            <!-- Headlight Beam -->
+            <polygon points="322,124 415,108 415,152 322,140" fill="#fbbf24" opacity="0.22"/>
+            <!-- Wheels -->
+            <circle cx="66" cy="152" r="24" fill="#0f172a" stroke="#64748b" stroke-width="5"/>
+            <circle cx="66" cy="152" r="10" fill="#cbd5e1"/>
+            <circle cx="116" cy="152" r="24" fill="#0f172a" stroke="#64748b" stroke-width="5"/>
+            <circle cx="116" cy="152" r="10" fill="#cbd5e1"/>
+            <circle cx="284" cy="152" r="24" fill="#0f172a" stroke="#64748b" stroke-width="5"/>
+            <circle cx="284" cy="152" r="10" fill="#cbd5e1"/>
+          </g>
+          <!-- Arabic Title & Subtitle -->
+          <text x="935" y="155" text-anchor="middle" fill="#ffffff" font-family="Noto Sans Arabic, Vazirmatn, Arial, sans-serif" font-weight="800" font-size="88">أحمد أكتروس</text>
+          <text x="935" y="232" text-anchor="middle" fill="#fbbf24" font-family="Noto Sans Arabic, Vazirmatn, Arial, sans-serif" font-weight="700" font-size="36">قطع غيار وجميع انواع اكسلات مرسيدس أكتروس</text>
+          <!-- Phone Numbers -->
+          <text x="935" y="335" text-anchor="middle" fill="#f8fafc" font-family="Inter, monospace, sans-serif" font-weight="800" font-size="40" letter-spacing="1">+964 750 461 8256  -  +964 784 444 2365</text>
+        </svg>
+      `.trim();
+      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+    }
+
+    const FALLBACK_BANNER_SRC = buildFallbackBannerDataUri();
+
+    // Canonical store contact constants
+    const STORE_DATA = {
+      whatsapp1Base: "https://wa.me/9647504618256",
+      whatsapp2Base: "https://wa.me/9647844442365",
+      phone1Intl: "+964 750 461 8256",
+      phone1Local: "0750 461 8256",
+      phone1Raw: "9647504618256",
+      phone2Intl: "+964 784 444 2365",
+      phone2Local: "0784 444 2365",
+      phone2Raw: "9647844442365",
+      addressDisplay: "North Industrial Area, In Safeen, Erbil, 44001, IQ"
+    };
+
+    // Six core Actros categories with localized titles and descriptions
+    const CATEGORIES = [
+      {
+        id: "transmission",
+        icon: "⚙️",
+        en: {
+          title: "Actros Transmission Repair Parts",
+          desc: "High-quality genuine and aftermarket transmission parts and repair components for Mercedes-Benz Actros trucks."
+        },
+        ku: {
+          title: "پارچەی چاککردنەوەی گێڕبۆکسی ئەکتڕۆس",
+          desc: "پارچەی ئەسڵی و ئەفتەرمارکێتی کوالیتی بەرز و پێکهاتەکانی چاککردنەوەی گێڕبۆکس بۆ بارهەڵگرەکانی مێرسیدس ئەکتڕۆس."
+        },
+        ar: {
+          title: "قطع إصلاح قير (جيربوكس) أكتروس",
+          desc: "قطع غيار أصلية وبديلة عالية الجودة ومكونات إصلاح ناقل الحركة لشاحنات مرسيدس بنز أكتروس."
+        },
+        tr: {
+          title: "Actros Şanzıman Tamir Parçaları",
+          desc: "Mercedes-Benz Actros kamyonlar için yüksek kaliteli orijinal ve yan sanayi şanzıman parçaları ve tamir bileşenleri."
+        },
+        fa: {
+          title: "قطعات تعمیر گیربکس آکتروس",
+          desc: "قطعات اصلی و افترمارکت باکیفیت و قطعات تعمیر گیربکس مخصوص کامیون‌های مرسدس بنز آکتروس."
+        }
+      },
+      {
+        id: "engine",
+        icon: "🔧",
+        en: {
+          title: "Engine Components & Overhaul Parts",
+          desc: "Pistons, liners, gaskets, turbochargers, and vital engine parts for Actros heavy-duty diesel engines."
+        },
+        ku: {
+          title: "پێکهاتەکانی بزوێنەر و پارچەی ئۆڤەرهۆڵ",
+          desc: "پستن، سڵندەر، گاسکێت، تۆربۆچارجەر و پارچە سەرەکییەکانی بزوێنەری دیزلی باری قورسی ئەکتڕۆس."
+        },
+        ar: {
+          title: "مكونات المحرك وقطع التوضيب",
+          desc: "بساتم، قمصان، جوانات، شواحن توربينية، وقطع محرك أساسية لمحركات الديزل الشاقة في أكتروس."
+        },
+        tr: {
+          title: "Motor Bileşenleri ve Revizyon Parçaları",
+          desc: "Actros ağır hizmet dizel motorları için piston, gömlek, conta, turboşarj ve kritik motor parçaları."
+        },
+        fa: {
+          title: "قطعات موتور و اورهال (تعمیر اساسی)",
+          desc: "پیستون، بوش، واشر، توربوشارژر و قطعات حیاتی موتورهای دیزل سنگین آکتروس."
+        }
+      },
+      {
+        id: "suspension",
+        icon: "🛞",
+        en: {
+          title: "Truck Suspension & Steering Parts",
+          desc: "Shock absorbers, leaf springs, steering rods, and suspension components for smooth and safe hauling."
+        },
+        ku: {
+          title: "پارچەکانی سەسپێنشین و سوکان بارهەڵگر",
+          desc: "جامپین، نابلۆک، قۆڵی سوکان و پێکهاتەکانی سەسپێنشین بۆ گواستنەوەی نەرم و پارێزراو."
+        },
+        ar: {
+          title: "قطع التعليق والتوجيه للشاحنات",
+          desc: "مساعدات، سست ورقية، أذرعة توجيه، ومكونات نظام التعليق لنقل سلس وآمن."
+        },
+        tr: {
+          title: "Kamyon Süspansiyon ve Direksiyon Parçaları",
+          desc: "Akıcı ve güvenli taşımacılık için amortisör, makas, rot/direksiyon kolları ve süspansiyon parçaları."
+        },
+        fa: {
+          title: "قطعات سیستم تعلیق و فرمان کامیون",
+          desc: "کمک‌فنر، فنر تخت، میل‌فرمان و قطعات سیستم تعلیق برای حمل‌ونقل روان و ایمن."
+        }
+      },
+      {
+        id: "electrical",
+        icon: "⚡",
+        en: {
+          title: "Electrical & Sensor Parts",
+          desc: "Alternators, starter motors, electronic control units, and truck sensors designed for Actros models."
+        },
+        ku: {
+          title: "پارچە کارەباییەکان و هەستەوەرەکان",
+          desc: "دینامۆ، سلف، یەکەی کۆنتڕۆڵی ئەلیکترۆنی (ECU) و هەستەوەرەکانی تایبەت بە مۆدێلەکانی ئەکتڕۆس."
+        },
+        ar: {
+          title: "القطع الكهربائية والحساسات",
+          desc: "دينامو، سلف، وحدات تحكم إلكترونية، وحساسات شاحنات مصممة لطرازات أكتروس."
+        },
+        tr: {
+          title: "Elektrik ve Sensör Parçaları",
+          desc: "Actros modelleri için tasarlanmış alternatör, marş motoru, elektronik kontrol üniteleri ve sensörler."
+        },
+        fa: {
+          title: "قطعات برق و سنسورها",
+          desc: "دینام، استارت، یونیت‌های کنترل الکترونیکی و سنسورهای طراحی‌شده برای مدل‌های آکتروس."
+        }
+      },
+      {
+        id: "axle",
+        icon: "🚛",
+        en: {
+          title: "Truck Axle",
+          desc: "High-quality heavy-duty truck axle parts and components for Mercedes-Benz Actros trucks. Durable parts designed for reliable performance under heavy loads."
+        },
+        ku: {
+          title: "ئەکسل بارهەڵگر",
+          desc: "پارچە و پێکهاتەکانی ئەکسلی باری قورس بۆ مێرسیدس ئەکتڕۆس؛ بەهێز و بەرگەگر لەژێر باری قورسدا."
+        },
+        ar: {
+          title: "أكسلات الشاحنات",
+          desc: "قطع ومكونات أكسلات شاحنات ثقيلة عالية الجودة لشاحنات مرسيدس بنز أكتروس؛ متينة للأحمال الثقيلة."
+        },
+        tr: {
+          title: "Kamyon Aks Parçaları",
+          desc: "Mercedes-Benz Actros kamyonlar için ağır yük altında güvenilir performans sunan dayanıklı aks parçaları."
+        },
+        fa: {
+          title: "اکسل کامیون",
+          desc: "قطعات و اجزای اکسل سنگین‌کار باکیفیت برای مرسدس بنز آکتروس؛ بادوام برای بارهای سنگین."
+        }
+      },
+      {
+        id: "brakes",
+        icon: "🛑",
+        en: {
+          title: "Mercedes Actros Brake Systems",
+          desc: "High-durability brake pads, rotors, discs, brake chambers, valves, and complete heavy-duty air brake system components designed specifically for Mercedes-Benz Actros trucks to ensure maximum stopping power and safety on long hauls."
+        },
+        ku: {
+          title: "سیستەمی برێکی مێرسیدس ئەکتڕۆس",
+          desc: "لێیزی برێک، دیسک، چەمبەر، ڤالڤ و پێکهاتەکانی سیستەمی برێکی هەوای باری قورس بۆ زۆرترین هێزی ڕاگرتن و سەلامەتی لە گەشتە درێژەکاندا."
+        },
+        ar: {
+          title: "أنظمة فرامل مرسيدس أكتروس",
+          desc: "تيل فرامل، هوبات، ديسكات، غرف هواء، صمامات، ومكونات نظام الفرامل الهوائية الشاقة المخصصة لأكتروس لأقصى أمان في الخطوط الطويلة."
+        },
+        tr: {
+          title: "Mercedes Actros Fren Sistemleri",
+          desc: "Uzun yolda maksimum duruş gücü ve güvenlik için Actros kamyonlara özel balata, disk, fren körüğü, valf ve havalı fren bileşenleri."
+        },
+        fa: {
+          title: "سیستم ترمز مرسدس آکتروس",
+          desc: "لنت، دیسک، چمبر، سوپاپ و قطعات کامل سیستم ترمز بادی سنگین ویژه آکتروس برای حداکثر قدرت توقف و ایمنی در مسیرهای طولانی."
+        }
+      }
+    ];
+
+    // Localized service areas list
+    const SERVICE_AREAS = {
+      en: ["Iraq", "Kurdistan Region (Iraq)", "Iran", "Kurdistan Province (Iran)", "Türkiye", "Erbil", "Sulaymaniyah", "Ranya", "Mosul", "Baghdad"],
+      ku: ["عێراق", "هەرێمی کوردستان (عێراق)", "ئێران", "پارێزگای کوردستان (ئێران)", "تورکیا", "هەولێر", "سلێمانی", "ڕانیە", "مووسڵ", "بەغدا"],
+      ar: ["العراق", "إقليم كردستان (العراق)", "إيران", "محافظة كردستان (إيران)", "تركيا", "أربيل", "السليمانية", "رانية", "الموصل", "بغداد"],
+      tr: ["Irak", "Kürdistan Bölgesi (Irak)", "İran", "Kürdistan Eyaleti (İran)", "Türkiye", "Erbil", "Süleymaniye", "Ranya", "Musul", "Bağdat"],
+      fa: ["عراق", "اقلیم کردستان (عراق)", "ایران", "استان کردستان (ایران)", "ترکیه", "اربیل", "سلیمانیه", "رانیه", "موصل", "بغداد"]
+    };
+
+    // Full UI strings for EN, KU, AR, TR, FA
+    const I18N = {
+      en: {
+        lang: "en",
+        dir: "ltr",
+        pageTitle: "Ahmed Actros | أحمد أكتروس — Mercedes-Benz Actros Spare Parts (Erbil)",
+        headerSubtitle: "Mercedes-Benz Actros Truck Spare Parts • Erbil",
+        navParts: "Parts & Services",
+        navQuote: "Part Quote Builder",
+        navStore: "Store & Hours",
+        navCoverage: "Service Areas",
+        bannerCaptionPrefix: "AHMED ACTROS | أحمد أكتروس",
+        bannerExpandText: "Full Banner View",
+        bannerCloseText: "✕ Close",
+        heroBadge: "Auto Parts Market • North Industrial Area, In Safeen, Erbil, 44001, IQ",
+        heroTagline: "Mercedes-Benz Actros Heavy-Duty Truck Spare Parts & Components",
+        heroDescription: "Ahmed Actros Premium Mercedes-Benz Actros truck spare parts. Located in the auto parts market. High quality, great prices, and reliable service to keep your trucks moving. Visit us today!",
+        heroWhatsappBtn: "WhatsApp Inquiry",
+        heroWhatsapp2Btn: "WhatsApp Line 2",
+        heroCall1Label: "Call",
+        heroCall2Label: "Call",
+        heroTiktokBtn: "TikTok",
+        cardFlagshipLabel: "Auto Parts Market",
+        cardFlagshipTitle: "Mercedes-Benz Actros Specialist",
+        cardHeavyBadge: "HEAVY DUTY",
+        heroAddrLabel: "Address",
+        heroPhone1Label: "Primary Phone & WhatsApp",
+        heroPhone2Label: "Second Line & WhatsApp",
+        heroHoursLabel: "Hours",
+        heroHoursValue: "Sunday – Thursday, Saturday: 07:00 – 19:00",
+        badgeInstore: "✓ In-Store Shopping",
+        badgeParking: "✓ Free Parking Lot",
+        badgeCards: "✓ Mastercard & Visa",
+        partsKicker: "Heavy Truck Components",
+        partsHeading: "Spare Parts & Service Categories",
+        partsSubheading: "Click any category card below to highlight and load it directly into the WhatsApp Quote Builder.",
+        partsJumpQuote: "Go to Quote Builder ↓",
+        selectCategoryBtn: "Select in Quote Builder",
+        selectedCategoryBtn: "Selected in Quote Builder",
+        quoteKicker: "Instant WhatsApp Quote",
+        quoteHeading: "Part Quote Builder",
+        labelCategory: "Part Category",
+        labelPartNote: "Actros Model / Chassis / Part Note",
+        placeholderPartNote: "e.g. Actros 1841 / MP4 — part name, OEM/aftermarket, or quantity",
+        labelCustomer: "Customer Name / Phone",
+        placeholderCustomer: "e.g. Karwan • +964 750 461 8256",
+        labelPreview: "WhatsApp Message Preview",
+        sendWaLabel: "WhatsApp 1",
+        sendWa2Label: "WhatsApp 2",
+        copyQuoteLabel: "Copy Quote Message",
+        copyBtn: "Copy",
+        copiedBtn: "Copied!",
+        copiedToast: "Copied to clipboard!",
+        storeKicker: "Visit Our Store",
+        storeHeading: "Store Details & Hours",
+        storeAddrLabel: "Address",
+        storePhonesLabel: "Phones & WhatsApp",
+        storeHoursLabel: "Opening Hours",
+        storeOpenDays: "Sunday – Thursday, Saturday",
+        storeFridayLabel: "Friday",
+        storeFridayStatus: "Closed",
+        coverageKicker: "Domestic & Cross-Border Reach",
+        coverageHeading: "Regional Service Areas",
+        coverageDesc: "Serving truck owners, workshops, and transport fleets across Iraq, Kurdistan Region, Iran, and Türkiye.",
+        quoteGreeting: "Hello Ahmed Actros, I would like a quote for:",
+        quoteFieldCategory: "Category",
+        quoteFieldNote: "Details / Model",
+        quoteFieldCustomer: "Customer",
+        quoteDefaultNote: "Please share availability and price"
+      },
+      ku: {
+        lang: "ckb",
+        dir: "rtl",
+        pageTitle: "ئەحمەد ئەکتڕۆس | Ahmed Actros — پارچەی یەدەگی بارهەڵگری مێرسیدس ئەکتڕۆس (هەولێر)",
+        headerSubtitle: "پارچەی یەدەگی بارهەڵگری مێرسیدس ئەکتڕۆس • هەولێر",
+        navParts: "پارچە و خزمەتگوزارییەکان",
+        navQuote: "دروستکەری نرخی پارچە",
+        navStore: "فرۆشگا و کاتەکان",
+        navCoverage: "ناوچەکانی خزمەتگوزاری",
+        bannerCaptionPrefix: "AHMED ACTROS | أحمد أكتروس",
+        bannerExpandText: "بینینی تەواوی بانەر",
+        bannerCloseText: "✕ داخستن",
+        heroBadge: "بازاڕی پارچەی یەدەگ • ناوچەی پیشەسازی باکوور، لە سەفین، هەولێر، 44001، عێراق",
+        heroTagline: "پارچەی یەدەگی باری قورس و پێکهاتەکانی مێرسیدس-بێنز ئەکتڕۆس",
+        heroDescription: "ئەحمەد ئەکتڕۆس (Ahmed Actros) باشترین پارچەی یەدەگی بارهەڵگری ئەکتڕۆس لە بازاڕی پیشەسازی. کوالیتی بەرز و نرخی گونجاو بۆ بەردەوامی بارهەڵگرەکەت. سەردانمان بکەن!",
+        heroWhatsappBtn: "پەیوەندی واتسئەپ",
+        heroWhatsapp2Btn: "واتسئەپ هێڵی ٢",
+        heroCall1Label: "پەیوەندی",
+        heroCall2Label: "پەیوەندی",
+        heroTiktokBtn: "تیکتۆک",
+        cardFlagshipLabel: "بازاڕی پارچەی یەدەگ",
+        cardFlagshipTitle: "پسپۆڕی مێرسیدس-بێنز ئەکتڕۆس",
+        cardHeavyBadge: "باری قورس",
+        heroAddrLabel: "ناونیشان",
+        heroPhone1Label: "تەلەفۆنی سەرەکی و واتسئەپ",
+        heroPhone2Label: "هێڵی دووەم و واتسئەپ",
+        heroHoursLabel: "کاتەکانی کارکردن",
+        heroHoursValue: "یەکشەممە – پێنجشەممە، شەممە: 07:00 – 19:00",
+        badgeInstore: "✓ کڕین لەناو فرۆشگا",
+        badgeParking: "✓ پارکینگ بەخۆڕایی",
+        badgeCards: "✓ ماستەرکارد و ڤیزا",
+        partsKicker: "پێکهاتەکانی بارهەڵگری قورس",
+        partsHeading: "بەشەکانی پارچەی یەدەگ و خزمەتگوزاری",
+        partsSubheading: "کرتە لە هەر کارتێکی بەش بکە بۆ دیاریکردن و ناردنی ڕاستەوخۆ بۆ دروستکەری نرخی واتسئەپ.",
+        partsJumpQuote: "بڕۆ بۆ دروستکەری نرخ ↓",
+        selectCategoryBtn: "هەڵبژاردن لە فۆرم",
+        selectedCategoryBtn: "هەڵبژێردراوە لە فۆرم",
+        quoteKicker: "نرخی خێرا لە واتسئەپ",
+        quoteHeading: "دروستکەری داواکاری نرخی پارچە",
+        labelCategory: "جۆری پارچە",
+        labelPartNote: "مۆدێلی ئەکتڕۆس / شاسی / تێبینی پارچە",
+        placeholderPartNote: "بۆ نموونە: ئەکتڕۆس 1841 / MP4 — ناوی پارچە، ئەسڵی/ئەفتەرمارکێت، یان ژمارە",
+        labelCustomer: "ناوی کڕیار / ژمارە تەلەفۆن",
+        placeholderCustomer: "بۆ نموونە: کاروان • +964 750 461 8256",
+        labelPreview: "پێشبینینی نامەی واتسئەپ",
+        sendWaLabel: "واتسئەپی ١",
+        sendWa2Label: "واتسئەپی ٢",
+        copyQuoteLabel: "کۆپیکردنی نامەی نرخ",
+        copyBtn: "کۆپی",
+        copiedBtn: "کۆپی کرا!",
+        copiedToast: "کۆپی کرا بۆ کلیپبۆرد!",
+        storeKicker: "سەردانی فرۆشگاکەمان بکەن",
+        storeHeading: "زانیاری فرۆشگا و کاتەکان",
+        storeAddrLabel: "ناونیشان",
+        storePhonesLabel: "تەلەفۆنەکان و واتسئەپ",
+        storeHoursLabel: "کاتەکانی کردنەوە",
+        storeOpenDays: "یەکشەممە – پێنجشەممە، شەممە",
+        storeFridayLabel: "هەینی",
+        storeFridayStatus: "داخراوە",
+        coverageKicker: "خزمەتگوزاری ناوخۆیی و سنووری",
+        coverageHeading: "ناوچەکانی خزمەتگوزاری",
+        coverageDesc: "خزمەتکردنی خاوەن بارهەڵگرەکان، وەرشەکان و کۆمپانیاکانی گواستنەوە لە عێراق، هەرێمی کوردستان، ئێران و تورکیا.",
+        quoteGreeting: "سڵاو ئەحمەد ئەکتڕۆس، داوای نرخی ئەم پارچەیە دەکەم:",
+        quoteFieldCategory: "بەش",
+        quoteFieldNote: "وردەکاری / مۆدێل",
+        quoteFieldCustomer: "کڕیار",
+        quoteDefaultNote: "تکایە بەردەستبوون و نرخ بنێرن"
+      },
+      ar: {
+        lang: "ar",
+        dir: "rtl",
+        pageTitle: "أحمد أكتروس | Ahmed Actros — قطع غيار لوريات مرسيدس بنز أكتروس (أربيل)",
+        headerSubtitle: "قطع غيار لوريات مرسيدس بنز أكتروس • أربيل",
+        navParts: "القطع والخدمات",
+        navQuote: "منشئ عرض السعر",
+        navStore: "المعرض وساعات العمل",
+        navCoverage: "مناطق الخدمة",
+        bannerCaptionPrefix: "AHMED ACTROS | أحمد أكتروس",
+        bannerExpandText: "عرض اللافتة كاملة",
+        bannerCloseText: "✕ إغلاق",
+        heroBadge: "سوق قطع الغيار • المنطقة الصناعية الشمالية، في سافين، أربيل، 44001، العراق",
+        heroTagline: "قطع غيار ومكونات الشاحنات الثقيلة مرسيدس بنز أكتروس",
+        heroDescription: "أحمد أكتروس (Ahmed Actros) أرقى قطع غيار لوريات مرسيدس بنز أكتروس. مكانا بسوق الأدوات والقطع الاحتياطية. نوفرلكم أعلى جودة، أنسب الأسعار، وخدمة ثقة حتى تظل لورياتكم شغالة وما توقف. شرفونا بزيارتكم اليوم!",
+        heroWhatsappBtn: "استفسار واتساب",
+        heroWhatsapp2Btn: "واتساب الخط الثاني",
+        heroCall1Label: "اتصال",
+        heroCall2Label: "اتصال",
+        heroTiktokBtn: "تيك توك",
+        cardFlagshipLabel: "سوق قطع الغيار",
+        cardFlagshipTitle: "متخصص مرسيدس بنز أكتروس",
+        cardHeavyBadge: "خدمة شاقة",
+        heroAddrLabel: "العنوان",
+        heroPhone1Label: "الهاتف الأساسي وواتساب",
+        heroPhone2Label: "الخط الثاني وواتساب",
+        heroHoursLabel: "ساعات العمل",
+        heroHoursValue: "الأحد – الخميس، السبت: 07:00 – 19:00",
+        badgeInstore: "✓ التسوق داخل المعرض",
+        badgeParking: "✓ موقف سيارات مجاني",
+        badgeCards: "✓ ماستركارد وفيزا",
+        partsKicker: "مكونات الشاحنات الثقيلة",
+        partsHeading: "أقسام قطع الغيار والخدمات",
+        partsSubheading: "اضغط على أي قسم لتحديده وإضافته مباشرة إلى منشئ عرض السعر عبر واتساب.",
+        partsJumpQuote: "الانتقال إلى منشئ السعر ↓",
+        selectCategoryBtn: "اختيار في نموذج السعر",
+        selectedCategoryBtn: "محدد في نموذج السعر",
+        quoteKicker: "عرض سعر فوري عبر واتساب",
+        quoteHeading: "منشئ طلب عرض السعر",
+        labelCategory: "قسم القطعة",
+        labelPartNote: "طراز أكتروس / الشاسيه / ملاحظة القطعة",
+        placeholderPartNote: "مثال: أكتروس 1841 / MP4 — اسم القطعة، أصلي/تجاري، أو الكمية",
+        labelCustomer: "اسم العميل / رقم الهاتف",
+        placeholderCustomer: "مثال: كاروان • +964 750 461 8256",
+        labelPreview: "معاينة رسالة واتساب",
+        sendWaLabel: "واتساب ١",
+        sendWa2Label: "واتساب ٢",
+        copyQuoteLabel: "نسخ رسالة السعر",
+        copyBtn: "نسخ",
+        copiedBtn: "تم النسخ!",
+        copiedToast: "تم النسخ إلى الحافظة!",
+        storeKicker: "تفضلوا بزيارة المعرض",
+        storeHeading: "تفاصيل المعرض وساعات العمل",
+        storeAddrLabel: "العنوان",
+        storePhonesLabel: "الهواتف وواتساب",
+        storeHoursLabel: "مواعيد العمل",
+        storeOpenDays: "الأحد – الخميس، السبت",
+        storeFridayLabel: "الجمعة",
+        storeFridayStatus: "مغلق",
+        coverageKicker: "تغطية محلية وإقليمية",
+        coverageHeading: "مناطق الخدمة",
+        coverageDesc: "نخدم أصحاب الشاحنات والورش وأساطيل النقل في العراق، إقليم كردستان، إيران، وتركيا.",
+        quoteGreeting: "مرحباً أحمد أكتروس، أود طلب عرض سعر لـ:",
+        quoteFieldCategory: "القسم",
+        quoteFieldNote: "التفاصيل / الطراز",
+        quoteFieldCustomer: "العميل",
+        quoteDefaultNote: "يرجى تزويدي بالتوفر والسعر"
+      },
+      tr: {
+        lang: "tr",
+        dir: "ltr",
+        pageTitle: "Ahmed Actros | أحمد أكتروس — Mercedes-Benz Actros Yedek Parça (Erbil)",
+        headerSubtitle: "Mercedes-Benz Actros Kamyon Yedek Parça • Erbil",
+        navParts: "Parçalar ve Hizmetler",
+        navQuote: "Teklif Oluşturucu",
+        navStore: "Mağaza ve Saatler",
+        navCoverage: "Hizmet Bölgeleri",
+        bannerCaptionPrefix: "AHMED ACTROS | أحمد أكتروس",
+        bannerExpandText: "Afişi Tam Gör",
+        bannerCloseText: "✕ Kapat",
+        heroBadge: "Oto Yedek Parça Pazarı • Kuzey Sanayi Bölgesi, In Safeen, Erbil, 44001, IQ",
+        heroTagline: "Mercedes-Benz Actros Ağır Hizmet Kamyon Yedek Parçaları",
+        heroDescription: "Ahmed Actros Oto yedek parça pazarında en kaliteli Mercedes-Benz Actros kamyon parçaları. Uygun fiyat, yüksek kalite ve güvenilir hizmet. Bugün ziyaret edin!",
+        heroWhatsappBtn: "WhatsApp İletişim",
+        heroWhatsapp2Btn: "WhatsApp 2. Hat",
+        heroCall1Label: "Ara",
+        heroCall2Label: "Ara",
+        heroTiktokBtn: "TikTok",
+        cardFlagshipLabel: "Oto Yedek Parça Pazarı",
+        cardFlagshipTitle: "Mercedes-Benz Actros Uzmanı",
+        cardHeavyBadge: "AĞIR HİZMET",
+        heroAddrLabel: "Adres",
+        heroPhone1Label: "Ana Telefon ve WhatsApp",
+        heroPhone2Label: "İkinci Hat ve WhatsApp",
+        heroHoursLabel: "Çalışma Saatleri",
+        heroHoursValue: "Pazar – Perşembe, Cumartesi: 07:00 – 19:00",
+        badgeInstore: "✓ Mağaza İçi Alışveriş",
+        badgeParking: "✓ Ücretsiz Otopark",
+        badgeCards: "✓ Mastercard & Visa",
+        partsKicker: "Ağır Vasıta Bileşenleri",
+        partsHeading: "Yedek Parça ve Hizmet Kategorileri",
+        partsSubheading: "Seçmek ve doğrudan WhatsApp Teklif Oluşturucusuna aktarmak için herhangi bir kategori kartına tıklayın.",
+        partsJumpQuote: "Teklif Oluşturucuya Git ↓",
+        selectCategoryBtn: "Teklif Formunda Seç",
+        selectedCategoryBtn: "Teklif Formunda Seçildi",
+        quoteKicker: "Anında WhatsApp Teklifi",
+        quoteHeading: "Parça Teklif Oluşturucu",
+        labelCategory: "Parça Kategorisi",
+        labelPartNote: "Actros Modeli / Şasi / Parça Notu",
+        placeholderPartNote: "Örn: Actros 1841 / MP4 — parça adı, OEM/yan sanayi veya adet",
+        labelCustomer: "Müşteri Adı / Telefon",
+        placeholderCustomer: "Örn: Karwan • +964 750 461 8256",
+        labelPreview: "WhatsApp Mesaj Önizlemesi",
+        sendWaLabel: "WhatsApp 1",
+        sendWa2Label: "WhatsApp 2",
+        copyQuoteLabel: "Teklif Mesajını Kopyala",
+        copyBtn: "Kopyala",
+        copiedBtn: "Kopyalandı!",
+        copiedToast: "Panoya kopyalandı!",
+        storeKicker: "Mağazamızı Ziyaret Edin",
+        storeHeading: "Mağaza Bilgileri ve Saatleri",
+        storeAddrLabel: "Adres",
+        storePhonesLabel: "Telefonlar ve WhatsApp",
+        storeHoursLabel: "Açılış Saatleri",
+        storeOpenDays: "Pazar – Perşembe, Cumartesi",
+        storeFridayLabel: "Cuma",
+        storeFridayStatus: "Kapalı",
+        coverageKicker: "Yurt İçi ve Sınır Ötesi Erişim",
+        coverageHeading: "Hizmet Bölgeleri",
+        coverageDesc: "Irak, Kürdistan Bölgesi, İran ve Türkiye genelinde kamyon sahiplerine, ustalara ve nakliye filolarına hizmet veriyoruz.",
+        quoteGreeting: "Merhaba Ahmed Actros, şu parça için teklif almak istiyorum:",
+        quoteFieldCategory: "Kategori",
+        quoteFieldNote: "Detaylar / Model",
+        quoteFieldCustomer: "Müşteri",
+        quoteDefaultNote: "Lütfen stok ve fiyat bilgisi paylaşın"
+      },
+      fa: {
+        lang: "fa",
+        dir: "rtl",
+        pageTitle: "احمد آکتروس | Ahmed Actros — قطعات یدکی کامیون مرسدس بنز آکتروس (اربیل)",
+        headerSubtitle: "قطعات یدکی کامیون مرسدس بنز آکتروس • اربیل",
+        navParts: "قطعات و خدمات",
+        navQuote: "سازنده استعلام قیمت",
+        navStore: "فروشگاه و ساعات کاری",
+        navCoverage: "محدوده خدمات",
+        bannerCaptionPrefix: "AHMED ACTROS | أحمد أكتروس",
+        bannerExpandText: "نمایش کامل بنر",
+        bannerCloseText: "✕ بستن",
+        heroBadge: "بازار قطعات یدکی • منطقه صنعتی شمالی، این سافین، اربیل، 44001، عراق",
+        heroTagline: "قطعات یدکی و تجهیزات سنگین کامیون مرسدس بنز آکتروس",
+        heroDescription: "احمد آکتروس (Ahmed Actros) برترین قطعات یدکی کامیون مرسدس بنز آکتروس در بازار قطعات خودرو. کیفیت بالا، قیمت مناسب و خدمات مطمئن برای حرکت بی‌وقفه ناوگان شما. امروز به ما سر بزنید!",
+        heroWhatsappBtn: "استعلام واتساپ",
+        heroWhatsapp2Btn: "واتساپ خط دوم",
+        heroCall1Label: "تماس",
+        heroCall2Label: "تماس",
+        heroTiktokBtn: "تیک‌تاک",
+        cardFlagshipLabel: "بازار قطعات یدکی",
+        cardFlagshipTitle: "متخصص مرسدس بنز آکتروس",
+        cardHeavyBadge: "سنگین‌کار",
+        heroAddrLabel: "آدرس",
+        heroPhone1Label: "تلفن اصلی و واتساپ",
+        heroPhone2Label: "خط دوم و واتساپ",
+        heroHoursLabel: "ساعات کاری",
+        heroHoursValue: "یکشنبه – پنجشنبه، شنبه: 07:00 – 19:00",
+        badgeInstore: "✓ خرید حضوری",
+        badgeParking: "✓ پارکینگ رایگان",
+        badgeCards: "✓ مسترکارت و ویزا",
+        partsKicker: "قطعات کامیون‌های سنگین",
+        partsHeading: "دسته‌بندی قطعات یدکی و خدمات",
+        partsSubheading: "روی هر کارت دسته‌بندی کلیک کنید تا انتخاب شود و مستقیماً در سازنده استعلام قیمت واتساپ قرار گیرد.",
+        partsJumpQuote: "رفتن به استعلام قیمت ↓",
+        selectCategoryBtn: "انتخاب در فرم استعلام",
+        selectedCategoryBtn: "انتخاب‌شده در فرم استعلام",
+        quoteKicker: "استعلام فوری در واتساپ",
+        quoteHeading: "سازنده استعلام قیمت قطعه",
+        labelCategory: "دسته‌بندی قطعه",
+        labelPartNote: "مدل آکتروس / شاسی / توضیحات قطعه",
+        placeholderPartNote: "مثال: آکتروس 1841 / MP4 — نام قطعه، اصلی/افترمارکت، یا تعداد",
+        labelCustomer: "نام مشتری / شماره تماس",
+        placeholderCustomer: "مثال: کاروان • +964 750 461 8256",
+        labelPreview: "پیش‌نمایش پیام واتساپ",
+        sendWaLabel: "واتساپ ۱",
+        sendWa2Label: "واتساپ ۲",
+        copyQuoteLabel: "کپی پیام استعلام",
+        copyBtn: "کپی",
+        copiedBtn: "کپی شد!",
+        copiedToast: "در کلیپ‌بورد کپی شد!",
+        storeKicker: "از فروشگاه ما دیدن کنید",
+        storeHeading: "مشخصات فروشگاه و ساعات کاری",
+        storeAddrLabel: "آدرس",
+        storePhonesLabel: "تلفن‌ها و واتساپ",
+        storeHoursLabel: "ساعات باز بودن",
+        storeOpenDays: "یکشنبه – پنجشنبه، شنبه",
+        storeFridayLabel: "جمعه",
+        storeFridayStatus: "تعطیل",
+        coverageKicker: "پوشش داخلی و منطقه‌ای",
+        coverageHeading: "محدوده خدمات",
+        coverageDesc: "خدمات‌رسانی به رانندگان، تعمیرگاه‌ها و ناوگان حمل‌ونقل در عراق، اقلیم کردستان، ایران و ترکیه.",
+        quoteGreeting: "سلام احمد آکتروس، درخواست استعلام قیمت برای موارد زیر را دارم:",
+        quoteFieldCategory: "دسته‌بندی",
+        quoteFieldNote: "جزئیات / مدل",
+        quoteFieldCustomer: "مشتری",
+        quoteDefaultNote: "لطفاً موجودی و قیمت را اعلام فرمایید"
+      }
+    };
+
+    let currentLang = "en";
+    let selectedCategoryId = CATEGORIES[0].id;
+    let toastTimer = null;
+
+    function showToast(message) {
+      const toast = document.getElementById("toast-banner");
+      const toastMsg = document.getElementById("toast-message");
+      toastMsg.textContent = message;
+      toast.classList.remove("hidden");
+      toast.classList.add("flex");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add("hidden");
+        toast.classList.remove("flex");
+      }, 2400);
+    }
+
+    function copyTextToClipboard(text, buttonEl) {
+      const t = I18N[currentLang] || I18N.en;
+      const onSuccess = () => {
+        showToast(t.copiedToast);
+        if (buttonEl) {
+          const prevText = buttonEl.textContent;
+          buttonEl.textContent = t.copiedBtn;
+          buttonEl.classList.add("bg-emerald-500", "text-slate-950", "border-emerald-400");
+          setTimeout(() => {
+            buttonEl.textContent = prevText;
+            buttonEl.classList.remove("bg-emerald-500", "text-slate-950", "border-emerald-400");
+          }, 1600);
+        }
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+      } else {
+        fallbackCopy(text, onSuccess);
+      }
+    }
+
+    function fallbackCopy(text, onSuccess) {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.appendChild(helper);
+      helper.select();
+      try {
+        document.execCommand("copy");
+        onSuccess();
+      } catch (err) {
+        showToast(text);
+      } finally {
+        document.body.removeChild(helper);
+      }
+    }
+
+    function renderCategories() {
+      const grid = document.getElementById("categories-grid");
+      const select = document.getElementById("quote-category");
+      const t = I18N[currentLang] || I18N.en;
+
+      grid.innerHTML = "";
+      select.innerHTML = "";
+
+      CATEGORIES.forEach((cat) => {
+        const localized = cat[currentLang] || cat.en;
+        const isSelected = cat.id === selectedCategoryId;
+
+        // Populate dropdown option
+        const opt = document.createElement("option");
+        opt.value = cat.id;
+        opt.textContent = localized.title;
+        if (isSelected) opt.selected = true;
+        select.appendChild(opt);
+
+        // Build category card
+        const card = document.createElement("article");
+        card.className = `category-card rounded-2xl bg-slate-900/90 border p-6 flex flex-col justify-between cursor-pointer ${
+          isSelected ? "is-selected border-amber-500" : "border-slate-800"
+        }`;
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-pressed", String(isSelected));
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <span class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-xl" aria-hidden="true">
+                ${cat.icon}
+              </span>
+              <span class="text-xs font-extrabold px-2.5 py-1 rounded-full ${
+                isSelected
+                  ? "bg-amber-500 text-slate-950"
+                  : "bg-slate-800 text-amber-300 border border-slate-700"
+              }">
+                ${isSelected ? t.selectedCategoryBtn : t.selectCategoryBtn}
+              </span>
+            </div>
+            <h3 class="text-lg font-extrabold text-white mb-2">${localized.title}</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">${localized.desc}</p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>${isSelected ? "● " + t.selectedCategoryBtn : "○ " + t.selectCategoryBtn}</span>
+            <span aria-hidden="true">→</span>
+          </div>
+        `;
+
+        const handleSelect = () => {
+          selectedCategoryId = cat.id;
+          select.value = cat.id;
+          renderCategories();
+          updateQuotePreview();
+        };
+
+        card.addEventListener("click", handleSelect);
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleSelect();
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function renderServiceAreas() {
+      const container = document.getElementById("service-areas-list");
+      const areas = SERVICE_AREAS[currentLang] || SERVICE_AREAS.en;
+      container.innerHTML = "";
+      areas.forEach((area) => {
+        const badge = document.createElement("span");
+        badge.className = "px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs sm:text-sm font-semibold";
+        badge.textContent = area;
+        container.appendChild(badge);
+      });
+    }
+
+    function buildQuoteMessage() {
+      const t = I18N[currentLang] || I18N.en;
+      const catObj = CATEGORIES.find((c) => c.id === selectedCategoryId) || CATEGORIES[0];
+      const catTitle = (catObj[currentLang] || catObj.en).title;
+      const noteVal = document.getElementById("quote-part-note").value.trim() || t.quoteDefaultNote;
+      const customerVal = document.getElementById("quote-customer").value.trim();
+
+      const lines = [
+        t.quoteGreeting,
+        `• ${t.quoteFieldCategory}: ${catTitle}`,
+        `• ${t.quoteFieldNote}: ${noteVal}`
+      ];
+      if (customerVal) {
+        lines.push(`• ${t.quoteFieldCustomer}: ${customerVal}`);
+      }
+      return lines.join("\n");
+    }
+
+    function updateQuotePreview() {
+      const message = buildQuoteMessage();
+      document.getElementById("quote-preview").textContent = message;
+      const encoded = encodeURIComponent(message);
+      document.getElementById("send-whatsapp-quote-btn").href = `${STORE_DATA.whatsapp1Base}?text=${encoded}`;
+      document.getElementById("send-whatsapp2-quote-btn").href = `${STORE_DATA.whatsapp2Base}?text=${encoded}`;
+    }
+
+    function applyLanguage(lang) {
+      currentLang = I18N[lang] ? lang : "en";
+      const t = I18N[currentLang];
+
+      document.documentElement.lang = t.lang;
+      document.documentElement.dir = t.dir;
+      document.title = t.pageTitle;
+
+      // Update active language button state
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        const active = btn.getAttribute("data-lang") === currentLang;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+
+      // Map element IDs to dictionary keys
+      const textBindings = {
+        "header-subtitle": "headerSubtitle",
+        "nav-parts": "navParts",
+        "nav-quote": "navQuote",
+        "nav-store": "navStore",
+        "nav-coverage": "navCoverage",
+        "banner-caption-prefix": "bannerCaptionPrefix",
+        "banner-expand-text": "bannerExpandText",
+        "banner-close-text": "bannerCloseText",
+        "hero-badge": "heroBadge",
+        "hero-tagline": "heroTagline",
+        "hero-description": "heroDescription",
+        "hero-whatsapp-btn": "heroWhatsappBtn",
+        "hero-whatsapp2-btn": "heroWhatsapp2Btn",
+        "hero-call1-label": "heroCall1Label",
+        "hero-call2-label": "heroCall2Label",
+        "hero-tiktok-btn": "heroTiktokBtn",
+        "card-flagship-label": "cardFlagshipLabel",
+        "card-flagship-title": "cardFlagshipTitle",
+        "card-heavy-badge": "cardHeavyBadge",
+        "hero-addr-label": "heroAddrLabel",
+        "hero-phone1-label": "heroPhone1Label",
+        "hero-phone2-label": "heroPhone2Label",
+        "hero-hours-label": "heroHoursLabel",
+        "badge-instore": "badgeInstore",
+        "badge-parking": "badgeParking",
+        "badge-cards": "badgeCards",
+        "parts-kicker": "partsKicker",
+        "parts-heading": "partsHeading",
+        "parts-subheading": "partsSubheading",
+        "parts-jump-quote": "partsJumpQuote",
+        "quote-kicker": "quoteKicker",
+        "quote-heading": "quoteHeading",
+        "label-category": "labelCategory",
+        "label-part-note": "labelPartNote",
+        "label-customer": "labelCustomer",
+        "label-preview": "labelPreview",
+        "send-wa-label": "sendWaLabel",
+        "send-wa2-label": "sendWa2Label",
+        "copy-quote-label": "copyQuoteLabel",
+        "store-kicker": "storeKicker",
+        "store-heading": "storeHeading",
+        "store-addr-label": "storeAddrLabel",
+        "store-phones-label": "storePhonesLabel",
+        "store-hours-label": "storeHoursLabel",
+        "store-open-days": "storeOpenDays",
+        "store-friday-label": "storeFridayLabel",
+        "store-friday-status": "storeFridayStatus",
+        "coverage-kicker": "coverageKicker",
+        "coverage-heading": "coverageHeading",
+        "coverage-desc": "coverageDesc"
+      };
+
+      Object.entries(textBindings).forEach(([id, key]) => {
+        const el = document.getElementById(id);
+        if (el && t[key]) el.textContent = t[key];
+      });
+
+      const hoursValEl = document.getElementById("hero-hours-value");
+      if (hoursValEl) {
+        hoursValEl.innerHTML = `${t.storeOpenDays}: <span class="ltr-num font-mono">07:00 – 19:00</span>`;
+      }
+
+      document.getElementById("quote-part-note").placeholder = t.placeholderPartNote;
+      document.getElementById("quote-customer").placeholder = t.placeholderCustomer;
+
+      document.querySelectorAll(".copy-action-btn").forEach((btn) => {
+        btn.textContent = t.copyBtn;
+      });
+
+      renderCategories();
+      renderServiceAreas();
+      updateQuotePreview();
+    }
+
+    function initBannerImages() {
+      const mainBanner = document.getElementById("brand-banner-img");
+      const modalBanner = document.getElementById("banner-modal-img");
+
+      const handleError = (imgEl) => {
+        imgEl.onerror = null;
+        imgEl.src = FALLBACK_BANNER_SRC;
+      };
+
+      mainBanner.addEventListener("error", () => handleError(mainBanner));
+      modalBanner.addEventListener("error", () => handleError(modalBanner));
+
+      // If IMG_9568.jpeg has naturalWidth === 0 after load attempt, swap to crisp fallback
+      if (mainBanner.complete && mainBanner.naturalWidth === 0) {
+        mainBanner.src = FALLBACK_BANNER_SRC;
+      }
+      if (modalBanner.complete && modalBanner.naturalWidth === 0) {
+        modalBanner.src = FALLBACK_BANNER_SRC;
+      }
+    }
+
+    function initModal() {
+      const modal = document.getElementById("banner-modal");
+      const openBtn = document.getElementById("open-banner-btn");
+      const expandBtn = document.getElementById("banner-expand-trigger");
+      const closeBtn = document.getElementById("close-banner-btn");
+
+      const openModal = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+        closeBtn.focus();
+      };
+
+      const closeModal = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      };
+
+      openBtn.addEventListener("click", openModal);
+      expandBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+          closeModal();
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initBannerImages();
+      initModal();
+
+      // Language tabs
+      document.querySelectorAll(".lang-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          applyLanguage(btn.getAttribute("data-lang"));
+        });
+      });
+
+      // Quote builder controls
+      document.getElementById("quote-category").addEventListener("change", (e) => {
+        selectedCategoryId = e.target.value;
+        renderCategories();
+        updateQuotePreview();
+      });
+
+      document.getElementById("quote-part-note").addEventListener("input", updateQuotePreview);
+      document.getElementById("quote-customer").addEventListener("input", updateQuotePreview);
+
+      document.getElementById("copy-quote-btn").addEventListener("click", function () {
+        copyTextToClipboard(buildQuoteMessage(), this);
+      });
+
+      // Copy buttons for Phone 1, Phone 2, and Address
+      const copyMap = {
+        phone1: `${STORE_DATA.phone1Intl} (${STORE_DATA.phone1Local})`,
+        phone2: `${STORE_DATA.phone2Intl} (${STORE_DATA.phone2Local})`,
+        address: STORE_DATA.addressDisplay
+      };
+
+      document.querySelectorAll(".copy-action-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const targetKey = this.getAttribute("data-copy-target");
+          const val = copyMap[targetKey];
+          if (val) copyTextToClipboard(val, this);
+        });
+      });
+
+      // Initialize default language
+      applyLanguage("en");
+    });
+  </script>
+</body>
+</html>
