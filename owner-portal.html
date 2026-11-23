@@ -226,7 +226,13 @@
               <input id="txIqd" type="number" step="1" oninput="syncIqdToUsd()" value="0" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
           </div>
-          <input id="txMethod" type="text" placeholder="Payment Method (Cash USD / IQD / Transfer)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <select id="txMethod" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
+  <option id="t_optCashUsd" value="Cash USD">Cash (USD)</option>
+  <option id="t_optCashIqd" value="Cash IQD">Cash (IQD)</option>
+  <option id="t_optTransfer" value="Transfer">Transfer (FIB / FastPay / Bank)</option>
+  <option id="t_optCredit" value="Credit / Due">Credit / Due</option>
+</select>
+
           <textarea id="txNotes" rows="2" placeholder="Parts / line items / notes" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></textarea>
           <button id="t_saveTxBtn" type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Entry</button>
         </form>
@@ -420,7 +426,10 @@
         optPaid: "Paid",
         txUsdLabel: "Amount (USD)",
         txIqdLabel: "Amount (IQD)",
-        txMethodPh: "Payment Method (Cash USD / IQD / Transfer)",
+        optCashUsd: "Cash (USD)",
+optCashIqd: "Cash (IQD)",
+optTransfer: "Transfer (FIB / FastPay / Bank)",
+optCredit: "Credit / Due",
         txNotesPh: "Parts / line items / notes",
         saveTxBtn: "Save Entry",
         ledgerEntries: "Financial Ledger",
@@ -496,7 +505,10 @@
         optPaid: "مدفوع",
         txUsdLabel: "المبلغ (USD)",
         txIqdLabel: "المبلغ (IQD)",
-        txMethodPh: "طريقة الدفع (نقد دولار / دينار / تحويل)",
+optCashUsd: "نقد (دولار أمريكي)",
+optCashIqd: "نقد (دينار عراقي)",
+optTransfer: "تحويل مصرفي (FIB / FastPay)",
+optCredit: "آجل / ذمة",
         txNotesPh: "القطع / التفاصيل / ملاحظات",
         saveTxBtn: "حفظ القيد",
         ledgerEntries: "السجل المالي",
@@ -572,7 +584,10 @@
         optPaid: "دراوە",
         txUsdLabel: "بڕ (USD)",
         txIqdLabel: "بڕ (IQD)",
-        txMethodPh: "شێوازی پارەدان (کاش دۆلار / دینار / حەواڵە)",
+        optCashUsd: "کاش (دۆلار)",
+optCashIqd: "کاش (دینار)",
+optTransfer: "حەواڵە (FIB / FastPay)",
+optCredit: "قەرز / ماوە",
         txNotesPh: "پارچەکان / وردەکاری / تێبینی",
         saveTxBtn: "پاشەکەوتکردنی تۆمار",
         ledgerEntries: "تۆماری دارایی",
@@ -648,7 +663,10 @@
         optPaid: "Ödendi",
         txUsdLabel: "Tutar (USD)",
         txIqdLabel: "Tutar (IQD)",
-        txMethodPh: "Ödeme Yöntemi (Nakit USD / IQD / Transfer)",
+        optCashUsd: "Nakit (USD)",
+optCashIqd: "Nakit (IQD)",
+optTransfer: "Havale / Transfer (FIB / FastPay)",
+optCredit: "Vadeli / Borç",
         txNotesPh: "Parçalar / Kalemler / Notlar",
         saveTxBtn: "Kaydı Sakla",
         ledgerEntries: "Mali Defter",
@@ -724,7 +742,10 @@
         optPaid: "Bezahlt",
         txUsdLabel: "Betrag (USD)",
         txIqdLabel: "Betrag (IQD)",
-        txMethodPh: "Zahlungsart (Bar USD / IQD / Überweisung)",
+        optCashUsd: "Bar (USD)",
+optCashIqd: "Bar (IQD)",
+optTransfer: "Überweisung (FIB / FastPay)",
+optCredit: "Auf Rechnung / Offen",
         txNotesPh: "Teile / Positionen / Notizen",
         saveTxBtn: "Eintrag speichern",
         ledgerEntries: "Finanzjournal",
@@ -819,7 +840,10 @@
       setText("t_optPaid", pack.optPaid);
       setText("t_txUsdLabel", pack.txUsdLabel);
       setText("t_txIqdLabel", pack.txIqdLabel);
-      setPlaceholder("txMethod", pack.txMethodPh);
+     setText("t_optCashUsd", pack.optCashUsd);
+setText("t_optCashIqd", pack.optCashIqd);
+setText("t_optTransfer", pack.optTransfer);
+setText("t_optCredit", pack.optCredit);
       setPlaceholder("txNotes", pack.txNotesPh);
       setText("t_saveTxBtn", pack.saveTxBtn);
       setText("t_ledgerEntries", pack.ledgerEntries);
@@ -1111,7 +1135,83 @@
     }
 
     function downloadInvoicePdf() {
-  window.print();
+  const invNo = document.getElementById("invPreviewNo")?.textContent?.trim() || "INV-2026-0001";
+  const invDate = document.getElementById("invPreviewDate")?.textContent?.trim() || "";
+  const invType = document.getElementById("invPreviewType")?.textContent?.trim() || "";
+  const custName = document.getElementById("invPreviewCustomer")?.textContent?.trim() || "";
+  const custPhone = document.getElementById("invPreviewPhone")?.textContent?.trim() || "";
+  const usdTotal = document.getElementById("invPreviewUsd")?.textContent?.trim() || "$0.00";
+  const iqdTotal = document.getElementById("invPreviewIqd")?.textContent?.trim() || "0 IQD";
+  const notes = document.getElementById("invPreviewNotes")?.textContent?.trim() || "-";
+
+  const JsPDF = window.jspdf?.jsPDF || window.jsPDF;
+  if (!JsPDF) {
+    window.print();
+    return;
+  }
+
+  const doc = new JsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+
+  doc.setFillColor(15, 23, 42);
+  doc.rect(14, 14, 182, 30, "F");
+  doc.setTextColor(245, 158, 11);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(16);
+  doc.text("AHMED ACTROS AUTO PARTS", 20, 26);
+
+  doc.setTextColor(226, 232, 240);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9.5);
+  doc.text("North Industrial Area (In Safeen), Erbil 44001, Iraq", 20, 33);
+  doc.text("Phone / WhatsApp: +964 750 461 8256  |  Hours: Sat-Thu 07:00-19:00", 20, 39);
+
+  doc.setTextColor(15, 23, 42);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(13);
+  doc.text(invNo, 14, 56);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Date: ${invDate}   |   ${invType}`, 14, 62);
+
+  doc.setDrawColor(203, 213, 225);
+  doc.roundedRect(14, 69, 182, 24, 2, 2);
+  doc.setFontSize(8.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text("BILLED TO", 19, 76);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(15, 23, 42);
+  doc.text(custName, 19, 83);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(9.5);
+  doc.setTextColor(71, 85, 105);
+  doc.text(custPhone, 19, 89);
+
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, 99, 182, 26, 2, 2, "FD");
+  doc.setFontSize(8.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text("TOTAL AMOUNT", 19, 106);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(15, 23, 42);
+  doc.text(usdTotal, 19, 114);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10.5);
+  doc.setTextColor(71, 85, 105);
+  doc.text(iqdTotal, 19, 121);
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9.5);
+  doc.setTextColor(15, 23, 42);
+  doc.text("Details / Parts / Notes:", 14, 136);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(51, 65, 85);
+  const wrappedNotes = doc.splitTextToSize(notes, 180);
+  doc.text(wrappedNotes, 14, 143);
+
+  doc.save(`${invNo}.pdf`);
 }
 
     async function addPart(e) {
