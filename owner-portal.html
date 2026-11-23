@@ -190,6 +190,43 @@
         </div>
       </div>
     </section>
+        <div id="customerProfilePanel" class="hidden rounded-xl border border-slate-800 bg-slatecard p-5 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div>
+          <h3 id="profCustName" class="text-base font-bold text-amber-400">Customer Name</h3>
+          <p id="profCustMeta" class="text-xs text-slate-400"></p>
+          <p id="profSummaryUsd" class="mt-1 text-xs font-semibold text-white"></p>
+          <p id="profSummaryIqd" class="text-xs text-slate-300"></p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="downloadStatementBtn" type="button" class="rounded-lg bg-amber-500 px-3.5 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">
+            Download Statement PDF
+          </button>
+          <button type="button" onclick="document.getElementById('customerProfilePanel').classList.add('hidden')" class="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-300">
+            Close
+          </button>
+        </div>
+      </div>
+
+      <div id="customerStatementSheet" class="rounded-xl bg-white p-5 text-slate-900">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="border-b border-slate-300 text-slate-600">
+              <tr>
+                <th class="py-2 pr-2">Ref / No.</th>
+                <th class="py-2 pr-2">Date</th>
+                <th class="py-2 pr-2">Type</th>
+                <th class="py-2 pr-2">Amount</th>
+                <th class="py-2 pr-2">Status</th>
+                <th class="py-2 text-right">Payment Delete</th>
+              </tr>
+            </thead>
+            <tbody id="profTxBody" class="divide-y divide-slate-200"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
 
     <!-- TAB 2: LEDGER & INVOICES -->
     <section id="tab-ledger" class="hidden space-y-6">
