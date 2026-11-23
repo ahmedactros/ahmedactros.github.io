@@ -1090,16 +1090,20 @@
     }
 
     function downloadInvoicePdf() {
-      const el = document.getElementById("invoiceSheet");
-      const invNo = document.getElementById("invPreviewNo").textContent || "Invoice";
-      html2pdf().set({
-        margin: 8,
-        filename: `${invNo}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
-      }).from(el).save();
-    }
+  const el = document.getElementById("invoiceSheet");
+  const invNo = document.getElementById("invPreviewNo").textContent || "Invoice";
+  if (typeof html2pdf === "function" && el) {
+    html2pdf().set({
+      margin: 8,
+      filename: `${invNo}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#ffffff" },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    }).from(el).save().catch(() => window.print());
+  } else {
+    window.print();
+  }
+}
 
     async function addPart(e) {
       e.preventDefault();
