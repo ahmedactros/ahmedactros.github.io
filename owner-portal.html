@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahmed Actros | أحمد أكتروس — Owner Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slatebg: '#0f172a',
+            slatecard: '#1e293b',
+            amberactros: '#f59e0b'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #0f172a !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slatebg text-slate-100">
+  <!-- Top Bar -->
+  <header class="no-print sticky top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+      <div class="flex items-center gap-3">
+        <img src="IMG_9568.jpeg" alt="Ahmed Actros Logo" class="h-11 w-11 rounded-lg border border-amber-500/50 object-cover bg-slate-900" />
+        <div>
+          <h1 class="text-base font-bold text-amber-400">Ahmed Actros | أحمد أكتروس</h1>
+          <p class="text-xs text-slate-400">North Industrial Area (In Safeen), Erbil 44001 • +964 750 461 8256</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <select id="langSelect" onchange="setLanguage(this.value)" class="rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1.5 text-xs text-slate-100 focus:border-amber-500 focus:outline-none">
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="ku">کوردی</option>
+          <option value="tr">Türkçe</option>
+          <option value="de">Deutsch</option>
+        </select>
+
+        <div class="flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-900 px-2 py-1 text-xs">
+          <span class="text-slate-400">1 USD =</span>
+          <input id="fxRateInput" type="number" step="1" value="1310" onchange="saveFxRate()" class="w-16 bg-transparent font-semibold text-amber-400 focus:outline-none" />
+          <span class="text-slate-400">IQD</span>
+        </div>
+
+        <button id="signOutBtn" onclick="signOutOwner()" class="hidden rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:border-amber-500">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Config Warning Banner -->
+  <div id="configBanner" class="no-print mx-auto mt-4 hidden max-w-7xl px-4">
+    <div class="rounded-xl border border-amber-500/60 bg-amber-500/10 p-3 text-xs text-amber-200">
+      <strong>Setup Needed:</strong> Replace <code>YOUR_SUPABASE_PUBLISHABLE_KEY</code> inside <code>owner-portal.html</code> with your Supabase Publishable / anon key from <strong>Project Settings &gt; API Keys</strong>.
+    </div>
+  </div>
+
+  <!-- Login View -->
+  <main id="loginView" class="mx-auto flex max-w-md flex-col justify-center px-4 py-12">
+    <div class="rounded-2xl border border-slate-800 bg-slatecard p-6 shadow-xl">
+      <div class="mb-5 flex flex-col items-center text-center">
+        <img src="IMG_9568.jpeg" alt="Ahmed Actros" class="mb-3 h-16 w-16 rounded-xl border border-amber-500/60 object-cover" />
+        <h2 id="t_loginTitle" class="text-xl font-bold text-amber-400">Owner Portal Sign-In</h2>
+        <p id="t_loginSub" class="mt-1 text-xs text-slate-400">Private cloud access for Ahmed Actros | أحمد أكتروس</p>
+      </div>
+
+      <form onsubmit="handleSignIn(event)" class="space-y-4">
+        <div>
+          <label id="t_emailLabel" class="mb-1 block text-xs font-medium text-slate-300">Owner Email</label>
+          <input id="loginEmail" type="email" required placeholder="owner@example.com" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus:border-amber-500 focus:outline-none" />
+        </div>
+        <div>
+          <label id="t_passwordLabel" class="mb-1 block text-xs font-medium text-slate-300">Password</label>
+          <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus:border-amber-500 focus:outline-none" />
+        </div>
+        <button id="t_loginBtn" type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-amber-400">
+          Sign In to Portal
+        </button>
+      </form>
+      <p id="authStatus" class="mt-3 text-center text-xs text-rose-400"></p>
+    </div>
+  </main>
+
+  <!-- Portal View -->
+  <main id="portalView" class="mx-auto hidden max-w-7xl space-y-6 px-4 py-6">
+    <!-- Summary KPIs -->
+    <section class="no-print grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-xl border border-slate-800 bg-slatecard p-4">
+        <p id="t_kpiCustomers" class="text-xs text-slate-400">Customers</p>
+        <p id="kpiCustomers" class="mt-1 text-2xl font-bold text-white">0</p>
+      </div>
+      <div class="rounded-xl border border-slate-800 bg-slatecard p-4">
+        <p id="t_kpiInvoices" class="text-xs text-slate-400">Total Billed (USD / IQD)</p>
+        <p id="kpiBilledUsd" class="mt-1 text-xl font-bold text-amber-400">$0.00</p>
+        <p id="kpiBilledIqd" class="text-xs text-slate-400">0 IQD</p>
+      </div>
+      <div class="rounded-xl border border-slate-800 bg-slatecard p-4">
+        <p id="t_kpiBalance" class="text-xs text-slate-400">Open Balance (USD / IQD)</p>
+        <p id="kpiDueUsd" class="mt-1 text-xl font-bold text-rose-400">$0.00</p>
+        <p id="kpiDueIqd" class="text-xs text-slate-400">0 IQD</p>
+      </div>
+      <div class="rounded-xl border border-slate-800 bg-slatecard p-4">
+        <p id="t_kpiParts" class="text-xs text-slate-400">Garage Parts Units</p>
+        <p id="kpiPartsUnits" class="mt-1 text-2xl font-bold text-emerald-400">0</p>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="no-print flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+      <button onclick="switchTab('customers')" id="tabBtn-customers" class="rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950">Customers</button>
+      <button onclick="switchTab('ledger')" id="tabBtn-ledger" class="rounded-lg border border-slate-700 bg-slatecard px-4 py-2 text-xs font-semibold text-slate-200 hover:border-amber-500">Ledger & Invoices</button>
+      <button onclick="switchTab('inventory')" id="tabBtn-inventory" class="rounded-lg border border-slate-700 bg-slatecard px-4 py-2 text-xs font-semibold text-slate-200 hover:border-amber-500">Garage Inventory & Shipments</button>
+    </nav>
+
+    <!-- TAB 1: CUSTOMERS -->
+    <section id="tab-customers" class="space-y-6">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <form onsubmit="addCustomer(event)" class="rounded-xl border border-slate-800 bg-slatecard p-5 space-y-3">
+          <h3 id="t_addCustomer" class="text-sm font-bold text-amber-400">Add Customer</h3>
+          <input id="custName" type="text" required placeholder="Customer / Fleet Name" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <input id="custPhone" type="text" placeholder="Phone (+964...)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <input id="custRegion" type="text" placeholder="City / Region (e.g., Erbil, Duhok)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <textarea id="custNotes" rows="2" placeholder="Actros model / VIN / notes" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></textarea>
+          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Customer</button>
+        </form>
+
+        <div class="lg:col-span-2 rounded-xl border border-slate-800 bg-slatecard p-5">
+          <div class="mb-3 flex items-center justify-between gap-2">
+            <h3 id="t_customerList" class="text-sm font-bold text-amber-400">Customer Directory</h3>
+            <input id="custSearch" oninput="renderCustomers()" type="text" placeholder="Search customer..." class="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs text-white" />
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="border-b border-slate-700 text-slate-400">
+                <tr>
+                  <th class="py-2 pr-3">Name</th>
+                  <th class="py-2 pr-3">Phone</th>
+                  <th class="py-2 pr-3">Region</th>
+                  <th class="py-2 pr-3">Truck Notes</th>
+                  <th class="py-2 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="customersTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: LEDGER & INVOICES -->
+    <section id="tab-ledger" class="hidden space-y-6">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <form onsubmit="addTransaction(event)" class="no-print rounded-xl border border-slate-800 bg-slatecard p-5 space-y-3">
+          <h3 id="t_newTx" class="text-sm font-bold text-amber-400">New Invoice / Payment</h3>
+          <div>
+            <label class="mb-1 block text-xs text-slate-400">Invoice / Reference No.</label>
+            <input id="txInvoiceNo" type="text" required class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-mono text-amber-300" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-slate-400">Customer</label>
+            <select id="txCustomerId" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></select>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Type</label>
+              <select id="txType" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
+                <option value="invoice">Invoice</option>
+                <option value="payment">Payment</option>
+              </select>
+            </div>
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Status</label>
+              <select id="txStatus" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
+                <option value="Due">Due</option>
+                <option value="Partial">Partial</option>
+                <option value="Paid">Paid</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Amount (USD)</label>
+              <input id="txUsd" type="number" step="0.01" oninput="syncUsdToIqd()" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Amount (IQD)</label>
+              <input id="txIqd" type="number" step="1" oninput="syncIqdToUsd()" value="0" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <input id="txMethod" type="text" placeholder="Payment Method (Cash USD / IQD / Transfer)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <textarea id="txNotes" rows="2" placeholder="Parts / line items / notes" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></textarea>
+          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Entry</button>
+        </form>
+
+        <div class="lg:col-span-2 space-y-4">
+          <div class="no-print rounded-xl border border-slate-800 bg-slatecard p-5">
+            <h3 id="t_ledgerEntries" class="mb-3 text-sm font-bold text-amber-400">Financial Ledger</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="border-b border-slate-700 text-slate-400">
+                  <tr>
+                    <th class="py-2 pr-2">Invoice</th>
+                    <th class="py-2 pr-2">Customer</th>
+                    <th class="py-2 pr-2">Type</th>
+                    <th class="py-2 pr-2">USD / IQD</th>
+                    <th class="py-2 pr-2">Status</th>
+                    <th class="py-2 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="txTableBody" class="divide-y divide-slate-800"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Printable / PDF Invoice Preview with IMG_9568.jpeg at top -->
+          <div class="rounded-xl border border-slate-800 bg-slatecard p-5">
+            <div class="no-print mb-3 flex flex-wrap items-center justify-between gap-2">
+              <h3 class="text-sm font-bold text-amber-400">PDF Invoice Preview</h3>
+              <button onclick="downloadInvoicePdf()" class="rounded-lg bg-amber-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-amber-400">
+                Export PDF Invoice
+              </button>
+            </div>
+            <div id="invoiceSheet" class="rounded-xl bg-white p-6 text-slate-900 shadow">
+              <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-200 pb-4">
+                <div class="flex items-center gap-3">
+                  <img src="IMG_9568.jpeg" alt="Ahmed Actros Header Logo" class="h-16 w-16 rounded-lg border border-slate-300 object-cover" />
+                  <div>
+                    <h4 class="text-lg font-extrabold text-slate-900">Ahmed Actros | أحمد أكتروس</h4>
+                    <p class="text-xs text-slate-600">North Industrial Area (In Safeen), Erbil, Iraq (44001)</p>
+                    <p class="text-xs text-slate-600">Phone / WhatsApp: +964 750 461 8256 • TikTok: @actros.erbil</p>
+                    <p class="text-xs text-slate-500">Hours: Sat–Thu 07:00–19:00</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p id="invPreviewNo" class="font-mono text-sm font-bold text-slate-900">INV-2026-0001</p>
+                  <p id="invPreviewDate" class="text-xs text-slate-600">2026-11-23</p>
+                  <p id="invPreviewStatus" class="mt-1 inline-block rounded bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-900">Due</p>
+                </div>
+              </div>
+
+              <div class="mt-4 grid grid-cols-1 gap-4 text-xs sm:grid-cols-2">
+                <div>
+                  <p class="font-bold uppercase text-slate-500">Billed To</p>
+                  <p id="invPreviewCustomer" class="mt-1 text-sm font-bold text-slate-900">Select an entry</p>
+                  <p id="invPreviewPhone" class="text-slate-600"></p>
+                </div>
+                <div class="sm:text-right">
+                  <p class="font-bold uppercase text-slate-500">Totals</p>
+                  <p id="invPreviewUsd" class="mt-1 text-base font-extrabold text-slate-900">$0.00</p>
+                  <p id="invPreviewIqd" class="text-xs font-semibold text-slate-700">0 IQD</p>
+                </div>
+              </div>
+
+              <div class="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs">
+                <p class="font-bold text-slate-700">Details / Notes</p>
+                <p id="invPreviewNotes" class="mt-1 whitespace-pre-line text-slate-600">—</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GARAGE INVENTORY & SHIPMENTS -->
+    <section id="tab-inventory" class="hidden space-y-6">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <form onsubmit="addPart(event)" class="rounded-xl border border-slate-800 bg-slatecard p-5 space-y-3">
+          <h3 id="t_addPart" class="text-sm font-bold text-amber-400">Add Garage Part / Shipment</h3>
+          <input id="partName" type="text" required placeholder="Part Name (e.g., Actros MP4 Brake Pad Set)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <input id="partOem" type="text" placeholder="OEM / Part Number" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <div class="grid grid-cols-2 gap-2">
+            <input id="partCategory" type="text" required placeholder="Category (Engine, Air, Brake...)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            <select id="partCondition" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
+              <option value="New">New</option>
+              <option value="Incoming Shipment">Incoming Shipment</option>
+              <option value="Used / OEM">Used / OEM</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Quantity</label>
+              <input id="partQty" type="number" min="0" value="1" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Low Stock Alert</label>
+              <input id="partMin" type="number" min="0" value="2" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <input id="partLocation" type="text" placeholder="Shelf / Bay / Shipment ETA" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Cost (USD)</label>
+              <input id="partCost" type="number" step="0.01" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+            <div>
+              <label class="mb-1 block text-xs text-slate-400">Sell Price (USD)</label>
+              <input id="partPrice" type="number" step="0.01" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
+            </div>
+          </div>
+          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Part</button>
+        </form>
+
+        <div class="lg:col-span-2 rounded-xl border border-slate-800 bg-slatecard p-5">
+          <div class="mb-3 flex items-center justify-between gap-2">
+            <h3 id="t_inventoryList" class="text-sm font-bold text-amber-400">Remaining Garage Stock & Incoming Shipments</h3>
+            <input id="partSearch" oninput="renderParts()" type="text" placeholder="Search part or OEM..." class="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs text-white" />
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="border-b border-slate-700 text-slate-400">
+                <tr>
+                  <th class="py-2 pr-2">Part</th>
+                  <th class="py-2 pr-2">Status / Location</th>
+                  <th class="py-2 pr-2">Qty</th>
+                  <th class="py-2 pr-2">Price (USD)</th>
+                  <th class="py-2 text-right">Adjust</th>
+                </tr>
+              </thead>
+              <tbody id="partsTableBody" class="divide-y divide-slate-800"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const SUPABASE_URL = "https://wwvjifvkgnodabeqrvne.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_d66C_44bTmIBcBkwePgJeQ_h4snLddW";
+
+    const db = (SUPABASE_PUBLISHABLE_KEY && SUPABASE_PUBLISHABLE_KEY !== "YOUR_SUPABASE_PUBLISHABLE_KEY")
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+      : null;
+
+    let state = {
+      session: null,
+      customers: [],
+      transactions: [],
+      parts: [],
+      fxRate: Number(localStorage.getItem("actros_fx_iqd") || 1310)
+    };
+
+    const I18N = {
+      en: { dir: "ltr", loginTitle: "Owner Portal Sign-In", loginSub: "Private cloud access for Ahmed Actros | أحمد أكتروس", emailLabel: "Owner Email", passwordLabel: "Password", loginBtn: "Sign In to Portal" },
+      ar: { dir: "rtl", loginTitle: "تسجيل دخول المالك", loginSub: "بوابة خاصة لأحمد أكتروس | Ahmed Actros", emailLabel: "البريد الإلكتروني للمالك", passwordLabel: "كلمة المرور", loginBtn: "دخول إلى البوابة" },
+      ku: { dir: "rtl", loginTitle: "چوونەژوورەوەی خاوەن کار", loginSub: "پۆرتاڵی تایبەت بۆ ئەحمەد ئەکتۆرس | Ahmed Actros", emailLabel: "ئیمەیڵی خاوەن کار", passwordLabel: "وشەی نهێنی", loginBtn: "چوونەژوورەوە" },
+      tr: { dir: "ltr", loginTitle: "Sahip Paneli Girişi", loginSub: "Ahmed Actros | أحمد أكتروس özel bulut paneli", emailLabel: "Sahip E-postası", passwordLabel: "Şifre", loginBtn: "Panele Giriş Yap" },
+      de: { dir: "ltr", loginTitle: "Inhaber-Portal Login", loginSub: "Geschützter Zugang für Ahmed Actros | أحمد أكتروس", emailLabel: "Inhaber-E-Mail", passwordLabel: "Passwort", loginBtn: "Anmelden" }
+    };
+
+    function setLanguage(lang) {
+      const pack = I18N[lang] || I18N.en;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = pack.dir;
+      document.getElementById("t_loginTitle").textContent = pack.loginTitle;
+      document.getElementById("t_loginSub").textContent = pack.loginSub;
+      document.getElementById("t_emailLabel").textContent = pack.emailLabel;
+      document.getElementById("t_passwordLabel").textContent = pack.passwordLabel;
+      document.getElementById("t_loginBtn").textContent = pack.loginBtn;
+    }
+
+    function saveFxRate() {
+      const val = Number(document.getElementById("fxRateInput").value);
+      if (val > 0) {
+        state.fxRate = val;
+        localStorage.setItem("actros_fx_iqd", String(val));
+        renderAll();
+      }
+    }
+
+    function formatUsd(n) {
+      return "$" + Number(n || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function formatIqd(n) {
+      return Math.round(Number(n || 0)).toLocaleString("en-US") + " IQD";
+    }
+
+    function syncUsdToIqd() {
+      const usd = Number(document.getElementById("txUsd").value || 0);
+      document.getElementById("txIqd").value = Math.round(usd * state.fxRate);
+    }
+
+    function syncIqdToUsd() {
+      const iqd = Number(document.getElementById("txIqd").value || 0);
+      document.getElementById("txUsd").value = (iqd / state.fxRate).toFixed(2);
+    }
+
+    function generateNextInvoiceNo() {
+      const year = new Date().getFullYear();
+      const prefix = `INV-${year}-`;
+      let maxNum = 0;
+      for (const tx of state.transactions) {
+        if (tx.invoice_no && tx.invoice_no.startsWith(prefix)) {
+          const parsed = parseInt(tx.invoice_no.replace(prefix, ""), 10);
+          if (!Number.isNaN(parsed) && parsed > maxNum) maxNum = parsed;
+        }
+      }
+      return prefix + String(maxNum + 1).padStart(4, "0");
+    }
+
+    function switchTab(tabName) {
+      for (const name of ["customers", "ledger", "inventory"]) {
+        document.getElementById("tab-" + name).classList.toggle("hidden", name !== tabName);
+        const btn = document.getElementById("tabBtn-" + name);
+        if (name === tabName) {
+          btn.className = "rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950";
+        } else {
+          btn.className = "rounded-lg border border-slate-700 bg-slatecard px-4 py-2 text-xs font-semibold text-slate-200 hover:border-amber-500";
+        }
+      }
+    }
+
+    async function handleSignIn(e) {
+      e.preventDefault();
+      if (!db) {
+        document.getElementById("authStatus").textContent = "Add your Supabase publishable key first.";
+        return;
+      }
+      document.getElementById("authStatus").textContent = "Signing in...";
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const { data, error } = await db.auth.signInWithPassword({ email, password });
+      if (error) {
+        document.getElementById("authStatus").textContent = error.message;
+        return;
+      }
+      state.session = data.session;
+      document.getElementById("authStatus").textContent = "";
+      await showPortal();
+    }
+
+    async function signOutOwner() {
+      if (db) await db.auth.signOut();
+      state.session = null;
+      document.getElementById("portalView").classList.add("hidden");
+      document.getElementById("signOutBtn").classList.add("hidden");
+      document.getElementById("loginView").classList.remove("hidden");
+    }
+
+    async function showPortal() {
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("portalView").classList.remove("hidden");
+      document.getElementById("signOutBtn").classList.remove("hidden");
+      document.getElementById("fxRateInput").value = state.fxRate;
+      await loadAllData();
+    }
+
+    async function loadAllData() {
+      if (!db) return;
+      const [cRes, tRes, pRes] = await Promise.all([
+        db.from("customers").select("*").order("created_at", { ascending: false }),
+        db.from("transactions").select("*").order("created_at", { ascending: false }),
+        db.from("garage_parts").select("*").order("updated_at", { ascending: false })
+      ]);
+      if (!cRes.error) state.customers = cRes.data || [];
+      if (!tRes.error) state.transactions = tRes.data || [];
+      if (!pRes.error) state.parts = pRes.data || [];
+      document.getElementById("txInvoiceNo").value = generateNextInvoiceNo();
+      renderAll();
+    }
+
+    function renderAll() {
+      renderKpis();
+      renderCustomers();
+      populateCustomerSelect();
+      renderTransactions();
+      renderParts();
+    }
+
+    function renderKpis() {
+      document.getElementById("kpiCustomers").textContent = String(state.customers.length);
+
+      let billedUsd = 0, billedIqd = 0, dueUsd = 0, dueIqd = 0;
+      for (const tx of state.transactions) {
+        if (tx.entry_type === "invoice") {
+          billedUsd += Number(tx.amount_usd || 0);
+          billedIqd += Number(tx.amount_iqd || 0);
+          if (tx.status !== "Paid") {
+            dueUsd += Number(tx.amount_usd || 0);
+            dueIqd += Number(tx.amount_iqd || 0);
+          }
+        } else if (tx.entry_type === "payment") {
+          dueUsd -= Number(tx.amount_usd || 0);
+          dueIqd -= Number(tx.amount_iqd || 0);
+        }
+      }
+
+      document.getElementById("kpiBilledUsd").textContent = formatUsd(billedUsd);
+      document.getElementById("kpiBilledIqd").textContent = formatIqd(billedIqd);
+      document.getElementById("kpiDueUsd").textContent = formatUsd(Math.max(0, dueUsd));
+      document.getElementById("kpiDueIqd").textContent = formatIqd(Math.max(0, dueIqd));
+
+      const totalUnits = state.parts.reduce((sum, p) => sum + Number(p.quantity || 0), 0);
+      document.getElementById("kpiPartsUnits").textContent = String(totalUnits);
+    }
+
+    async function addCustomer(e) {
+      e.preventDefault();
+      if (!db) return;
+      const payload = {
+        full_name: document.getElementById("custName").value.trim(),
+        phone: document.getElementById("custPhone").value.trim() || null,
+        city_region: document.getElementById("custRegion").value.trim() || null,
+        truck_notes: document.getElementById("custNotes").value.trim() || null
+      };
+      const { error } = await db.from("customers").insert(payload);
+      if (error) return alert(error.message);
+      e.target.reset();
+      await loadAllData();
+    }
+
+    async function deleteCustomer(id) {
+      if (!db || !confirm("Delete this customer?")) return;
+      const { error } = await db.from("customers").delete().eq("id", id);
+      if (error) return alert(error.message);
+      await loadAllData();
+    }
+
+    function renderCustomers() {
+      const q = (document.getElementById("custSearch")?.value || "").toLowerCase();
+      const rows = state.customers.filter(c =>
+        (c.full_name || "").toLowerCase().includes(q) ||
+        (c.phone || "").toLowerCase().includes(q) ||
+        (c.city_region || "").toLowerCase().includes(q)
+      );
+      const tbody = document.getElementById("customersTableBody");
+      tbody.innerHTML = rows.map(c => `
+        <tr>
+          <td class="py-2 pr-3 font-semibold text-white">${escapeHtml(c.full_name)}</td>
+          <td class="py-2 pr-3 text-slate-300">${escapeHtml(c.phone || "-")}</td>
+          <td class="py-2 pr-3 text-slate-300">${escapeHtml(c.city_region || "-")}</td>
+          <td class="py-2 pr-3 text-slate-400">${escapeHtml(c.truck_notes || "-")}</td>
+          <td class="py-2 text-right">
+            <button onclick="deleteCustomer('${c.id}')" class="rounded bg-rose-500/20 px-2 py-1 text-rose-300 hover:bg-rose-500/30">Delete</button>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="5" class="py-4 text-center text-slate-400">No customers yet</td></tr>`;
+    }
+
+    function populateCustomerSelect() {
+      const sel = document.getElementById("txCustomerId");
+      if (!sel) return;
+      sel.innerHTML = `<option value="">Walk-in / General</option>` + state.customers.map(c =>
+        `<option value="${c.id}">${escapeHtml(c.full_name)}</option>`
+      ).join("");
+    }
+
+    async function addTransaction(e) {
+      e.preventDefault();
+      if (!db) return;
+      const payload = {
+        invoice_no: document.getElementById("txInvoiceNo").value.trim() || generateNextInvoiceNo(),
+        customer_id: document.getElementById("txCustomerId").value || null,
+        entry_type: document.getElementById("txType").value,
+        status: document.getElementById("txStatus").value,
+        amount_usd: Number(document.getElementById("txUsd").value || 0),
+        amount_iqd: Math.round(Number(document.getElementById("txIqd").value || 0)),
+        payment_method: document.getElementById("txMethod").value.trim() || null,
+        notes: document.getElementById("txNotes").value.trim() || null
+      };
+      const { data, error } = await db.from("transactions").insert(payload).select().single();
+      if (error) return alert(error.message);
+      document.getElementById("txNotes").value = "";
+      document.getElementById("txUsd").value = "0.00";
+      document.getElementById("txIqd").value = "0";
+      await loadAllData();
+      if (data) selectInvoiceForPreview(data.id);
+    }
+
+    function selectInvoiceForPreview(id) {
+      const tx = state.transactions.find(t => t.id === id);
+      if (!tx) return;
+      const cust = state.customers.find(c => c.id === tx.customer_id);
+      document.getElementById("invPreviewNo").textContent = tx.invoice_no;
+      document.getElementById("invPreviewDate").textContent = new Date(tx.created_at).toLocaleDateString();
+      document.getElementById("invPreviewStatus").textContent = `${tx.entry_type.toUpperCase()} • ${tx.status}`;
+      document.getElementById("invPreviewCustomer").textContent = cust ? cust.full_name : "Walk-in Customer";
+      document.getElementById("invPreviewPhone").textContent = cust?.phone || "";
+      document.getElementById("invPreviewUsd").textContent = formatUsd(tx.amount_usd);
+      document.getElementById("invPreviewIqd").textContent = formatIqd(tx.amount_iqd);
+      document.getElementById("invPreviewNotes").textContent = [tx.payment_method, tx.notes].filter(Boolean).join(" — ") || "—";
+    }
+
+    function renderTransactions() {
+      const tbody = document.getElementById("txTableBody");
+      tbody.innerHTML = state.transactions.map(tx => {
+        const cust = state.customers.find(c => c.id === tx.customer_id);
+        return `
+          <tr>
+            <td class="py-2 pr-2 font-mono text-amber-300">${escapeHtml(tx.invoice_no)}</td>
+            <td class="py-2 pr-2 text-white">${escapeHtml(cust ? cust.full_name : "Walk-in")}</td>
+            <td class="py-2 pr-2 capitalize text-slate-300">${escapeHtml(tx.entry_type)}</td>
+            <td class="py-2 pr-2">
+              <div class="font-semibold text-white">${formatUsd(tx.amount_usd)}</div>
+              <div class="text-[11px] text-slate-400">${formatIqd(tx.amount_iqd)}</div>
+            </td>
+            <td class="py-2 pr-2 text-slate-200">${escapeHtml(tx.status)}</td>
+            <td class="py-2 text-right space-x-1">
+              <button onclick="selectInvoiceForPreview('${tx.id}')" class="rounded bg-amber-500/20 px-2 py-1 text-amber-300 hover:bg-amber-500/30">Preview</button>
+            </td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="6" class="py-4 text-center text-slate-400">No ledger entries yet</td></tr>`;
+    }
+
+    function downloadInvoicePdf() {
+      const el = document.getElementById("invoiceSheet");
+      const invNo = document.getElementById("invPreviewNo").textContent || "Invoice";
+      html2pdf().set({
+        margin: 8,
+        filename: `${invNo}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+      }).from(el).save();
+    }
+
+    async function addPart(e) {
+      e.preventDefault();
+      if (!db) return;
+      const payload = {
+        part_name: document.getElementById("partName").value.trim(),
+        oem_code: document.getElementById("partOem").value.trim() || null,
+        category: document.getElementById("partCategory").value.trim(),
+        condition: document.getElementById("partCondition").value,
+        quantity: Math.max(0, parseInt(document.getElementById("partQty").value || "0", 10)),
+        min_threshold: Math.max(0, parseInt(document.getElementById("partMin").value || "2", 10)),
+        location: document.getElementById("partLocation").value.trim() || null,
+        unit_cost_usd: Number(document.getElementById("partCost").value || 0),
+        unit_price_usd: Number(document.getElementById("partPrice").value || 0),
+        updated_at: new Date().toISOString()
+      };
+      const { error } = await db.from("garage_parts").insert(payload);
+      if (error) return alert(error.message);
+      e.target.reset();
+      await loadAllData();
+    }
+
+    async function adjustQty(id, delta) {
+      if (!db) return;
+      const part = state.parts.find(p => p.id === id);
+      if (!part) return;
+      const nextQty = Math.max(0, Number(part.quantity || 0) + delta);
+      const { error } = await db.from("garage_parts").update({ quantity: nextQty, updated_at: new Date().toISOString() }).eq("id", id);
+      if (error) return alert(error.message);
+      await loadAllData();
+    }
+
+    function renderParts() {
+      const q = (document.getElementById("partSearch")?.value || "").toLowerCase();
+      const rows = state.parts.filter(p =>
+        (p.part_name || "").toLowerCase().includes(q) ||
+        (p.oem_code || "").toLowerCase().includes(q) ||
+        (p.category || "").toLowerCase().includes(q)
+      );
+      const tbody = document.getElementById("partsTableBody");
+      tbody.innerHTML = rows.map(p => {
+        const low = Number(p.quantity) <= Number(p.min_threshold);
+        return `
+          <tr>
+            <td class="py-2 pr-2">
+              <div class="font-semibold text-white">${escapeHtml(p.part_name)}</div>
+              <div class="text-[11px] text-slate-400">${escapeHtml(p.oem_code || "")} • ${escapeHtml(p.category)}</div>
+            </td>
+            <td class="py-2 pr-2">
+              <div class="text-amber-300">${escapeHtml(p.condition)}</div>
+              <div class="text-[11px] text-slate-400">${escapeHtml(p.location || "-")}</div>
+            </td>
+            <td class="py-2 pr-2 font-bold ${low ? "text-rose-400" : "text-emerald-400"}">${Number(p.quantity)}</td>
+            <td class="py-2 pr-2 text-slate-200">${formatUsd(p.unit_price_usd)}</td>
+            <td class="py-2 text-right space-x-1">
+              <button onclick="adjustQty('${p.id}', -1)" class="rounded bg-slate-800 px-2 py-1 text-white hover:bg-slate-700">-</button>
+              <button onclick="adjustQty('${p.id}', 1)" class="rounded bg-slate-800 px-2 py-1 text-white hover:bg-slate-700">+</button>
+            </td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="5" class="py-4 text-center text-slate-400">No parts in garage inventory yet</td></tr>`;
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    (async function init() {
+      if (!db) {
+        document.getElementById("configBanner").classList.remove("hidden");
+        return;
+      }
+      const { data } = await db.auth.getSession();
+      if (data?.session) {
+        state.session = data.session;
+        await showPortal();
+      }
+    })();
+  </script>
+</body>
+</html>
