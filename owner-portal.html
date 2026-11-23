@@ -40,7 +40,7 @@
         <img src="IMG_9568.jpeg" alt="Ahmed Actros Logo" class="h-11 w-11 rounded-lg border border-amber-500/50 object-cover bg-slate-900" />
         <div>
           <h1 class="text-base font-bold text-amber-400">Ahmed Actros | أحمد أكتروس</h1>
-          <p class="text-xs text-slate-400">North Industrial Area (In Safeen), Erbil 44001 • +964 750 461 8256</p>
+          <p id="t_bizLocation" class="text-xs text-slate-400">North Industrial Area (In Safeen), Erbil 44001 • +964 750 461 8256</p>
         </div>
       </div>
 
@@ -68,7 +68,7 @@
 
   <!-- Config Warning Banner -->
   <div id="configBanner" class="no-print mx-auto mt-4 hidden max-w-7xl px-4">
-    <div class="rounded-xl border border-amber-500/60 bg-amber-500/10 p-3 text-xs text-amber-200">
+    <div id="t_configBanner" class="rounded-xl border border-amber-500/60 bg-amber-500/10 p-3 text-xs text-amber-200">
       <strong>Setup Needed:</strong> Replace <code>YOUR_SUPABASE_PUBLISHABLE_KEY</code> inside <code>owner-portal.html</code> with your Supabase Publishable / anon key from <strong>Project Settings &gt; API Keys</strong>.
     </div>
   </div>
@@ -139,7 +139,7 @@
           <input id="custPhone" type="text" placeholder="Phone (+964...)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
           <input id="custRegion" type="text" placeholder="City / Region (e.g., Erbil, Duhok)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
           <textarea id="custNotes" rows="2" placeholder="Actros model / VIN / notes" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></textarea>
-          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Customer</button>
+          <button id="t_saveCustomerBtn" type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Customer</button>
         </form>
 
         <div class="lg:col-span-2 rounded-xl border border-slate-800 bg-slatecard p-5">
@@ -151,11 +151,11 @@
             <table class="w-full text-left text-xs">
               <thead class="border-b border-slate-700 text-slate-400">
                 <tr>
-                  <th class="py-2 pr-3">Name</th>
-                  <th class="py-2 pr-3">Phone</th>
-                  <th class="py-2 pr-3">Region</th>
-                  <th class="py-2 pr-3">Truck Notes</th>
-                  <th class="py-2 text-right">Action</th>
+                  <th id="t_thCustName" class="py-2 pr-3">Name</th>
+                  <th id="t_thCustPhone" class="py-2 pr-3">Phone</th>
+                  <th id="t_thCustRegion" class="py-2 pr-3">Region</th>
+                  <th id="t_thCustNotes" class="py-2 pr-3">Truck Notes</th>
+                  <th id="t_thCustAction" class="py-2 text-right">Action</th>
                 </tr>
               </thead>
               <tbody id="customersTableBody" class="divide-y divide-slate-800"></tbody>
@@ -171,43 +171,43 @@
         <form onsubmit="addTransaction(event)" class="no-print rounded-xl border border-slate-800 bg-slatecard p-5 space-y-3">
           <h3 id="t_newTx" class="text-sm font-bold text-amber-400">New Invoice / Payment</h3>
           <div>
-            <label class="mb-1 block text-xs text-slate-400">Invoice / Reference No.</label>
+            <label id="t_invNoLabel" class="mb-1 block text-xs text-slate-400">Invoice / Reference No.</label>
             <input id="txInvoiceNo" type="text" required class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm font-mono text-amber-300" />
           </div>
           <div>
-            <label class="mb-1 block text-xs text-slate-400">Customer</label>
+            <label id="t_txCustLabel" class="mb-1 block text-xs text-slate-400">Customer</label>
             <select id="txCustomerId" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></select>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Type</label>
+              <label id="t_txTypeLabel" class="mb-1 block text-xs text-slate-400">Type</label>
               <select id="txType" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
-                <option value="invoice">Invoice</option>
-                <option value="payment">Payment</option>
+                <option id="t_optInvoice" value="invoice">Invoice</option>
+                <option id="t_optPayment" value="payment">Payment</option>
               </select>
             </div>
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Status</label>
+              <label id="t_txStatusLabel" class="mb-1 block text-xs text-slate-400">Status</label>
               <select id="txStatus" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
-                <option value="Due">Due</option>
-                <option value="Partial">Partial</option>
-                <option value="Paid">Paid</option>
+                <option id="t_optDue" value="Due">Due</option>
+                <option id="t_optPartial" value="Partial">Partial</option>
+                <option id="t_optPaid" value="Paid">Paid</option>
               </select>
             </div>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Amount (USD)</label>
+              <label id="t_txUsdLabel" class="mb-1 block text-xs text-slate-400">Amount (USD)</label>
               <input id="txUsd" type="number" step="0.01" oninput="syncUsdToIqd()" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Amount (IQD)</label>
+              <label id="t_txIqdLabel" class="mb-1 block text-xs text-slate-400">Amount (IQD)</label>
               <input id="txIqd" type="number" step="1" oninput="syncIqdToUsd()" value="0" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
           </div>
           <input id="txMethod" type="text" placeholder="Payment Method (Cash USD / IQD / Transfer)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
           <textarea id="txNotes" rows="2" placeholder="Parts / line items / notes" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></textarea>
-          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Entry</button>
+          <button id="t_saveTxBtn" type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Entry</button>
         </form>
 
         <div class="lg:col-span-2 space-y-4">
@@ -217,12 +217,12 @@
               <table class="w-full text-left text-xs">
                 <thead class="border-b border-slate-700 text-slate-400">
                   <tr>
-                    <th class="py-2 pr-2">Invoice</th>
-                    <th class="py-2 pr-2">Customer</th>
-                    <th class="py-2 pr-2">Type</th>
-                    <th class="py-2 pr-2">USD / IQD</th>
-                    <th class="py-2 pr-2">Status</th>
-                    <th class="py-2 text-right">Actions</th>
+                    <th id="t_thInv" class="py-2 pr-2">Invoice</th>
+                    <th id="t_thTxCust" class="py-2 pr-2">Customer</th>
+                    <th id="t_thTxType" class="py-2 pr-2">Type</th>
+                    <th id="t_thTxAmt" class="py-2 pr-2">USD / IQD</th>
+                    <th id="t_thTxStatus" class="py-2 pr-2">Status</th>
+                    <th id="t_thTxActions" class="py-2 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="txTableBody" class="divide-y divide-slate-800"></tbody>
@@ -233,8 +233,8 @@
           <!-- Printable / PDF Invoice Preview with IMG_9568.jpeg at top -->
           <div class="rounded-xl border border-slate-800 bg-slatecard p-5">
             <div class="no-print mb-3 flex flex-wrap items-center justify-between gap-2">
-              <h3 class="text-sm font-bold text-amber-400">PDF Invoice Preview</h3>
-              <button onclick="downloadInvoicePdf()" class="rounded-lg bg-amber-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-amber-400">
+              <h3 id="t_pdfPreviewTitle" class="text-sm font-bold text-amber-400">PDF Invoice Preview</h3>
+              <button id="t_exportPdfBtn" onclick="downloadInvoicePdf()" class="rounded-lg bg-amber-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-amber-400">
                 Export PDF Invoice
               </button>
             </div>
@@ -258,19 +258,19 @@
 
               <div class="mt-4 grid grid-cols-1 gap-4 text-xs sm:grid-cols-2">
                 <div>
-                  <p class="font-bold uppercase text-slate-500">Billed To</p>
+                  <p id="t_billedTo" class="font-bold uppercase text-slate-500">Billed To</p>
                   <p id="invPreviewCustomer" class="mt-1 text-sm font-bold text-slate-900">Select an entry</p>
                   <p id="invPreviewPhone" class="text-slate-600"></p>
                 </div>
                 <div class="sm:text-right">
-                  <p class="font-bold uppercase text-slate-500">Totals</p>
+                  <p id="t_invTotals" class="font-bold uppercase text-slate-500">Totals</p>
                   <p id="invPreviewUsd" class="mt-1 text-base font-extrabold text-slate-900">$0.00</p>
                   <p id="invPreviewIqd" class="text-xs font-semibold text-slate-700">0 IQD</p>
                 </div>
               </div>
 
               <div class="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs">
-                <p class="font-bold text-slate-700">Details / Notes</p>
+                <p id="t_invNotesLabel" class="font-bold text-slate-700">Details / Notes</p>
                 <p id="invPreviewNotes" class="mt-1 whitespace-pre-line text-slate-600">—</p>
               </div>
             </div>
@@ -289,33 +289,33 @@
           <div class="grid grid-cols-2 gap-2">
             <input id="partCategory" type="text" required placeholder="Category (Engine, Air, Brake...)" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             <select id="partCondition" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white">
-              <option value="New">New</option>
-              <option value="Incoming Shipment">Incoming Shipment</option>
-              <option value="Used / OEM">Used / OEM</option>
+              <option id="t_condNew" value="New">New</option>
+              <option id="t_condShipment" value="Incoming Shipment">Incoming Shipment</option>
+              <option id="t_condUsed" value="Used / OEM">Used / OEM</option>
             </select>
           </div>
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Quantity</label>
+              <label id="t_partQtyLabel" class="mb-1 block text-xs text-slate-400">Quantity</label>
               <input id="partQty" type="number" min="0" value="1" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Low Stock Alert</label>
+              <label id="t_partMinLabel" class="mb-1 block text-xs text-slate-400">Low Stock Alert</label>
               <input id="partMin" type="number" min="0" value="2" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
           </div>
           <input id="partLocation" type="text" placeholder="Shelf / Bay / Shipment ETA" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Cost (USD)</label>
+              <label id="t_partCostLabel" class="mb-1 block text-xs text-slate-400">Cost (USD)</label>
               <input id="partCost" type="number" step="0.01" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
             <div>
-              <label class="mb-1 block text-xs text-slate-400">Sell Price (USD)</label>
+              <label id="t_partPriceLabel" class="mb-1 block text-xs text-slate-400">Sell Price (USD)</label>
               <input id="partPrice" type="number" step="0.01" value="0.00" class="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white" />
             </div>
           </div>
-          <button type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Part</button>
+          <button id="t_savePartBtn" type="submit" class="w-full rounded-lg bg-amber-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-400">Save Part</button>
         </form>
 
         <div class="lg:col-span-2 rounded-xl border border-slate-800 bg-slatecard p-5">
@@ -327,11 +327,11 @@
             <table class="w-full text-left text-xs">
               <thead class="border-b border-slate-700 text-slate-400">
                 <tr>
-                  <th class="py-2 pr-2">Part</th>
-                  <th class="py-2 pr-2">Status / Location</th>
-                  <th class="py-2 pr-2">Qty</th>
-                  <th class="py-2 pr-2">Price (USD)</th>
-                  <th class="py-2 text-right">Adjust</th>
+                  <th id="t_thPart" class="py-2 pr-2">Part</th>
+                  <th id="t_thPartLoc" class="py-2 pr-2">Status / Location</th>
+                  <th id="t_thPartQty" class="py-2 pr-2">Qty</th>
+                  <th id="t_thPartPrice" class="py-2 pr-2">Price (USD)</th>
+                  <th id="t_thPartAdj" class="py-2 text-right">Adjust</th>
                 </tr>
               </thead>
               <tbody id="partsTableBody" class="divide-y divide-slate-800"></tbody>
@@ -344,9 +344,9 @@
 
   <script>
     const SUPABASE_URL = "https://wwvjifvkgnodabeqrvne.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_d66C_44bTmIBcBkwePgJeQ_h4snLddW";
+    const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
 
-    const db = (SUPABASE_PUBLISHABLE_KEY && SUPABASE_PUBLISHABLE_KEY !== "YOUR_SUPABASE_PUBLISHABLE_KEY")
+    const db = (SUPABASE_PUBLISHABLE_KEY && SUPABASE_PUBLISHABLE_KEY !== "sb_publishable_d66C_44bTmIBcBkwePgJeQ_h4snLddW")
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
       : null;
 
@@ -359,22 +359,486 @@
     };
 
     const I18N = {
-      en: { dir: "ltr", loginTitle: "Owner Portal Sign-In", loginSub: "Private cloud access for Ahmed Actros | أحمد أكتروس", emailLabel: "Owner Email", passwordLabel: "Password", loginBtn: "Sign In to Portal" },
-      ar: { dir: "rtl", loginTitle: "تسجيل دخول المالك", loginSub: "بوابة خاصة لأحمد أكتروس | Ahmed Actros", emailLabel: "البريد الإلكتروني للمالك", passwordLabel: "كلمة المرور", loginBtn: "دخول إلى البوابة" },
-      ku: { dir: "rtl", loginTitle: "چوونەژوورەوەی خاوەن کار", loginSub: "پۆرتاڵی تایبەت بۆ ئەحمەد ئەکتۆرس | Ahmed Actros", emailLabel: "ئیمەیڵی خاوەن کار", passwordLabel: "وشەی نهێنی", loginBtn: "چوونەژوورەوە" },
-      tr: { dir: "ltr", loginTitle: "Sahip Paneli Girişi", loginSub: "Ahmed Actros | أحمد أكتروس özel bulut paneli", emailLabel: "Sahip E-postası", passwordLabel: "Şifre", loginBtn: "Panele Giriş Yap" },
-      de: { dir: "ltr", loginTitle: "Inhaber-Portal Login", loginSub: "Geschützter Zugang für Ahmed Actros | أحمد أكتروس", emailLabel: "Inhaber-E-Mail", passwordLabel: "Passwort", loginBtn: "Anmelden" }
+      en: {
+        dir: "ltr",
+        signOut: "Sign Out",
+        loginTitle: "Owner Portal Sign-In",
+        loginSub: "Private cloud access for Ahmed Actros | أحمد أكتروس",
+        emailLabel: "Owner Email",
+        passwordLabel: "Password",
+        loginBtn: "Sign In to Portal",
+        kpiCustomers: "Customers",
+        kpiInvoices: "Total Billed (USD / IQD)",
+        kpiBalance: "Open Balance (USD / IQD)",
+        kpiParts: "Garage Parts Units",
+        tabCustomers: "Customers",
+        tabLedger: "Ledger & Invoices",
+        tabInventory: "Garage Inventory & Shipments",
+        addCustomer: "Add Customer",
+        custNamePh: "Customer / Fleet Name",
+        custPhonePh: "Phone (+964...)",
+        custRegionPh: "City / Region (e.g., Erbil, Duhok)",
+        custNotesPh: "Actros model / VIN / notes",
+        saveCustomerBtn: "Save Customer",
+        customerList: "Customer Directory",
+        custSearchPh: "Search customer...",
+        thCustName: "Name",
+        thCustPhone: "Phone",
+        thCustRegion: "Region",
+        thCustNotes: "Truck Notes",
+        thCustAction: "Action",
+        newTx: "New Invoice / Payment",
+        invNoLabel: "Invoice / Reference No.",
+        txCustLabel: "Customer",
+        txTypeLabel: "Type",
+        optInvoice: "Invoice",
+        optPayment: "Payment",
+        txStatusLabel: "Status",
+        optDue: "Due",
+        optPartial: "Partial",
+        optPaid: "Paid",
+        txUsdLabel: "Amount (USD)",
+        txIqdLabel: "Amount (IQD)",
+        txMethodPh: "Payment Method (Cash USD / IQD / Transfer)",
+        txNotesPh: "Parts / line items / notes",
+        saveTxBtn: "Save Entry",
+        ledgerEntries: "Financial Ledger",
+        thInv: "Invoice",
+        thTxCust: "Customer",
+        thTxType: "Type",
+        thTxAmt: "USD / IQD",
+        thTxStatus: "Status",
+        thTxActions: "Actions",
+        pdfPreviewTitle: "PDF Invoice Preview",
+        exportPdfBtn: "Export PDF Invoice",
+        billedTo: "Billed To",
+        invTotals: "Totals",
+        invNotesLabel: "Details / Notes",
+        addPart: "Add Garage Part / Shipment",
+        partNamePh: "Part Name (e.g., Actros MP4 Brake Pad Set)",
+        partOemPh: "OEM / Part Number",
+        partCategoryPh: "Category (Engine, Air, Brake...)",
+        condNew: "New",
+        condShipment: "Incoming Shipment",
+        condUsed: "Used / OEM",
+        partQtyLabel: "Quantity",
+        partMinLabel: "Low Stock Alert",
+        partLocationPh: "Shelf / Bay / Shipment ETA",
+        partCostLabel: "Cost (USD)",
+        partPriceLabel: "Sell Price (USD)",
+        savePartBtn: "Save Part",
+        inventoryList: "Remaining Garage Stock & Incoming Shipments",
+        partSearchPh: "Search part or OEM...",
+        thPart: "Part",
+        thPartLoc: "Status / Location",
+        thPartQty: "Qty",
+        thPartPrice: "Price (USD)",
+        thPartAdj: "Adjust"
+      },
+      ar: {
+        dir: "rtl",
+        signOut: "تسجيل الخروج",
+        loginTitle: "تسجيل دخول المالك",
+        loginSub: "بوابة خاصة لأحمد أكتروس | Ahmed Actros",
+        emailLabel: "البريد الإلكتروني للمالك",
+        passwordLabel: "كلمة المرور",
+        loginBtn: "دخول إلى البوابة",
+        kpiCustomers: "العملاء",
+        kpiInvoices: "إجمالي الفواتير (دولار / دينار)",
+        kpiBalance: "الرصيد المستحق (دولار / دينار)",
+        kpiParts: "وحدات قطع الكراج",
+        tabCustomers: "العملاء",
+        tabLedger: "الحسابات والفواتير",
+        tabInventory: "مخزون الكراج والشحنات",
+        addCustomer: "إضافة عميل",
+        custNamePh: "اسم العميل أو الأسطول",
+        custPhonePh: "الهاتف (+964...)",
+        custRegionPh: "المدينة / المنطقة (أربيل، دهوك...)",
+        custNotesPh: "موديل أكتروس / رقم الشاسيه / ملاحظات",
+        saveCustomerBtn: "حفظ العميل",
+        customerList: "دليل العملاء",
+        custSearchPh: "ابحث عن عميل...",
+        thCustName: "الاسم",
+        thCustPhone: "الهاتف",
+        thCustRegion: "المنطقة",
+        thCustNotes: "ملاحظات الشاحنة",
+        thCustAction: "إجراء",
+        newTx: "فاتورة أو دفعة جديدة",
+        invNoLabel: "رقم الفاتورة / المرجع",
+        txCustLabel: "العميل",
+        txTypeLabel: "النوع",
+        optInvoice: "فاتورة",
+        optPayment: "دفعة",
+        txStatusLabel: "الحالة",
+        optDue: "مستحق",
+        optPartial: "جزئي",
+        optPaid: "مدفوع",
+        txUsdLabel: "المبلغ (USD)",
+        txIqdLabel: "المبلغ (IQD)",
+        txMethodPh: "طريقة الدفع (نقد دولار / دينار / تحويل)",
+        txNotesPh: "القطع / التفاصيل / ملاحظات",
+        saveTxBtn: "حفظ القيد",
+        ledgerEntries: "السجل المالي",
+        thInv: "الفاتورة",
+        thTxCust: "العميل",
+        thTxType: "النوع",
+        thTxAmt: "USD / IQD",
+        thTxStatus: "الحالة",
+        thTxActions: "إجراءات",
+        pdfPreviewTitle: "معاينة فاتورة PDF",
+        exportPdfBtn: "تصدير فاتورة PDF",
+        billedTo: "فاتورة إلى",
+        invTotals: "الإجمالي",
+        invNotesLabel: "التفاصيل / الملاحظات",
+        addPart: "إضافة قطعة كراج / شحنة",
+        partNamePh: "اسم القطعة (مثال: فحمات بريك أكتروس MP4)",
+        partOemPh: "رقم القطعة / OEM",
+        partCategoryPh: "الفئة (محرك، هواء، بريك...)",
+        condNew: "جديد",
+        condShipment: "شحنة قادمة",
+        condUsed: "مستعمل / أصلي",
+        partQtyLabel: "الكمية",
+        partMinLabel: "تنبيه انخفاض المخزون",
+        partLocationPh: "الرف / القسم / موعد وصول الشحنة",
+        partCostLabel: "التكلفة (USD)",
+        partPriceLabel: "سعر البيع (USD)",
+        savePartBtn: "حفظ القطعة",
+        inventoryList: "المخزون المتبقي في الكراج والشحنات القادمة",
+        partSearchPh: "ابحث عن قطعة أو رقم OEM...",
+        thPart: "القطعة",
+        thPartLoc: "الحالة / الموقع",
+        thPartQty: "الكمية",
+        thPartPrice: "السعر (USD)",
+        thPartAdj: "تعديل"
+      },
+      ku: {
+        dir: "rtl",
+        signOut: "چوونەدەرەوە",
+        loginTitle: "چوونەژوورەوەی خاوەن کار",
+        loginSub: "پۆرتاڵی تایبەت بۆ ئەحمەد ئەکتۆرس | Ahmed Actros",
+        emailLabel: "ئیمەیڵی خاوەن کار",
+        passwordLabel: "وشەی نهێنی",
+        loginBtn: "چوونەژوورەوە",
+        kpiCustomers: "کڕیارەکان",
+        kpiInvoices: "کۆی پسوولەکان (دۆلار / دینار)",
+        kpiBalance: "باڵانسی ماوە (دۆلار / دینار)",
+        kpiParts: "دانەی پارچەکانی گەراج",
+        tabCustomers: "کڕیارەکان",
+        tabLedger: "تۆماری دارایی و پسوولە",
+        tabInventory: "کۆگای گەراج و بارە هاتووەکان",
+        addCustomer: "زیادکردنی کڕیار",
+        custNamePh: "ناوی کڕیار یان کۆمپانیا",
+        custPhonePh: "تەلەفۆن (+964...)",
+        custRegionPh: "شار / ناوچە (هەولێر، دهۆک...)",
+        custNotesPh: "مۆدێلی ئەکتۆرس / ژمارەی شاسی / تێبینی",
+        saveCustomerBtn: "پاشەکەوتکردنی کڕیار",
+        customerList: "لیستی کڕیارەکان",
+        custSearchPh: "گەڕان بۆ کڕیار...",
+        thCustName: "ناو",
+        thCustPhone: "تەلەفۆن",
+        thCustRegion: "ناوچە",
+        thCustNotes: "تێبینی بارهەڵگر",
+        thCustAction: "کردار",
+        newTx: "پسوولە یان پارەدانی نوێ",
+        invNoLabel: "ژمارەی پسوولە / سەرچاوە",
+        txCustLabel: "کڕیار",
+        txTypeLabel: "جۆر",
+        optInvoice: "پسوولە",
+        optPayment: "پارەدان",
+        txStatusLabel: "دۆخ",
+        optDue: "قەرز / ماوە",
+        optPartial: "بەشێک دراوە",
+        optPaid: "دراوە",
+        txUsdLabel: "بڕ (USD)",
+        txIqdLabel: "بڕ (IQD)",
+        txMethodPh: "شێوازی پارەدان (کاش دۆلار / دینار / حەواڵە)",
+        txNotesPh: "پارچەکان / وردەکاری / تێبینی",
+        saveTxBtn: "پاشەکەوتکردنی تۆمار",
+        ledgerEntries: "تۆماری دارایی",
+        thInv: "پسوولە",
+        thTxCust: "کڕیار",
+        thTxType: "جۆر",
+        thTxAmt: "USD / IQD",
+        thTxStatus: "دۆخ",
+        thTxActions: "کردارەکان",
+        pdfPreviewTitle: "پێشبینینی پسوولەی PDF",
+        exportPdfBtn: "هەناردنی پسوولەی PDF",
+        billedTo: "پسوولە بۆ",
+        invTotals: "کۆی گشتی",
+        invNotesLabel: "وردەکاری / تێبینی",
+        addPart: "زیادکردنی پارچەی گەراج / بار",
+        partNamePh: "ناوی پارچە (نموونە: برێک پادی ئەکتۆرس MP4)",
+        partOemPh: "ژمارەی پارچە / OEM",
+        partCategoryPh: "پۆل (مەکینە، هەوا، برێک...)",
+        condNew: "نوێ",
+        condShipment: "باری هاتوو لە ڕێگا",
+        condUsed: "بەکارهاتوو / ئەسڵی",
+        partQtyLabel: "بڕ / ژمارە",
+        partMinLabel: "ئاگادارکردنەوەی کەمی کۆگا",
+        partLocationPh: "ڕەفە / بەش / کاتی گەیشتنی بار",
+        partCostLabel: "تێچوو (USD)",
+        partPriceLabel: "نرخی فرۆشتن (USD)",
+        savePartBtn: "پاشەکەوتکردنی پارچە",
+        inventoryList: "پارچە ماوەکانی گەراج و بارە هاتووەکان",
+        partSearchPh: "گەڕان بۆ پارچە یان OEM...",
+        thPart: "پارچە",
+        thPartLoc: "دۆخ / شوێن",
+        thPartQty: "ژمارە",
+        thPartPrice: "نرخ (USD)",
+        thPartAdj: "گۆڕین"
+      },
+      tr: {
+        dir: "ltr",
+        signOut: "Çıkış Yap",
+        loginTitle: "Sahip Paneli Girişi",
+        loginSub: "Ahmed Actros | أحمد أكتروس özel bulut paneli",
+        emailLabel: "Sahip E-postası",
+        passwordLabel: "Şifre",
+        loginBtn: "Panele Giriş Yap",
+        kpiCustomers: "Müşteriler",
+        kpiInvoices: "Toplam Faturalanan (USD / IQD)",
+        kpiBalance: "Açık Bakiye (USD / IQD)",
+        kpiParts: "Garaj Parça Adedi",
+        tabCustomers: "Müşteriler",
+        tabLedger: "Defter ve Faturalar",
+        tabInventory: "Garaj Stoku ve Sevkiyatlar",
+        addCustomer: "Müşteri Ekle",
+        custNamePh: "Müşteri / Filo Adı",
+        custPhonePh: "Telefon (+964...)",
+        custRegionPh: "Şehir / Bölge (Erbil, Duhok...)",
+        custNotesPh: "Actros modeli / Şasi / Notlar",
+        saveCustomerBtn: "Müşteriyi Kaydet",
+        customerList: "Müşteri Rehberi",
+        custSearchPh: "Müşteri ara...",
+        thCustName: "Ad",
+        thCustPhone: "Telefon",
+        thCustRegion: "Bölge",
+        thCustNotes: "Araç Notları",
+        thCustAction: "İşlem",
+        newTx: "Yeni Fatura / Ödeme",
+        invNoLabel: "Fatura / Referans No.",
+        txCustLabel: "Müşteri",
+        txTypeLabel: "Tür",
+        optInvoice: "Fatura",
+        optPayment: "Ödeme",
+        txStatusLabel: "Durum",
+        optDue: "Ödenecek",
+        optPartial: "Kısmi",
+        optPaid: "Ödendi",
+        txUsdLabel: "Tutar (USD)",
+        txIqdLabel: "Tutar (IQD)",
+        txMethodPh: "Ödeme Yöntemi (Nakit USD / IQD / Transfer)",
+        txNotesPh: "Parçalar / Kalemler / Notlar",
+        saveTxBtn: "Kaydı Sakla",
+        ledgerEntries: "Mali Defter",
+        thInv: "Fatura",
+        thTxCust: "Müşteri",
+        thTxType: "Tür",
+        thTxAmt: "USD / IQD",
+        thTxStatus: "Durum",
+        thTxActions: "İşlemler",
+        pdfPreviewTitle: "PDF Fatura Önizleme",
+        exportPdfBtn: "PDF Fatura İndir",
+        billedTo: "Fatura Kesilen",
+        invTotals: "Toplamlar",
+        invNotesLabel: "Detaylar / Notlar",
+        addPart: "Garaj Parçası / Sevkiyat Ekle",
+        partNamePh: "Parça Adı (örn. Actros MP4 Balata Seti)",
+        partOemPh: "OEM / Parça Numarası",
+        partCategoryPh: "Kategori (Motor, Hava, Fren...)",
+        condNew: "Yeni",
+        condShipment: "Gelen Sevkiyat",
+        condUsed: "Çıkma / OEM",
+        partQtyLabel: "Adet",
+        partMinLabel: "Düşük Stok Uyarısı",
+        partLocationPh: "Raf / Bölüm / Sevkiyat Tahmini",
+        partCostLabel: "Maliyet (USD)",
+        partPriceLabel: "Satış Fiyatı (USD)",
+        savePartBtn: "Parçayı Kaydet",
+        inventoryList: "Kalan Garaj Stoku ve Gelen Sevkiyatlar",
+        partSearchPh: "Parça veya OEM ara...",
+        thPart: "Parça",
+        thPartLoc: "Durum / Konum",
+        thPartQty: "Adet",
+        thPartPrice: "Fiyat (USD)",
+        thPartAdj: "Düzenle"
+      },
+      de: {
+        dir: "ltr",
+        signOut: "Abmelden",
+        loginTitle: "Inhaber-Portal Login",
+        loginSub: "Geschützter Zugang für Ahmed Actros | أحمد أكتروس",
+        emailLabel: "Inhaber-E-Mail",
+        passwordLabel: "Passwort",
+        loginBtn: "Anmelden",
+        kpiCustomers: "Kunden",
+        kpiInvoices: "Gesamtrechnungen (USD / IQD)",
+        kpiBalance: "Offener Saldo (USD / IQD)",
+        kpiParts: "Lagerbestand Teile",
+        tabCustomers: "Kunden",
+        tabLedger: "Buchhaltung & Rechnungen",
+        tabInventory: "Werkstattbestand & Lieferungen",
+        addCustomer: "Kunde hinzufügen",
+        custNamePh: "Kunden- / Flottenname",
+        custPhonePh: "Telefon (+964...)",
+        custRegionPh: "Stadt / Region (Erbil, Duhok...)",
+        custNotesPh: "Actros-Modell / FIN / Notizen",
+        saveCustomerBtn: "Kunde speichern",
+        customerList: "Kundenverzeichnis",
+        custSearchPh: "Kunde suchen...",
+        thCustName: "Name",
+        thCustPhone: "Telefon",
+        thCustRegion: "Region",
+        thCustNotes: "LKW-Notizen",
+        thCustAction: "Aktion",
+        newTx: "Neue Rechnung / Zahlung",
+        invNoLabel: "Rechnungs- / Belegnr.",
+        txCustLabel: "Kunde",
+        txTypeLabel: "Typ",
+        optInvoice: "Rechnung",
+        optPayment: "Zahlung",
+        txStatusLabel: "Status",
+        optDue: "Offen",
+        optPartial: "Teilweise",
+        optPaid: "Bezahlt",
+        txUsdLabel: "Betrag (USD)",
+        txIqdLabel: "Betrag (IQD)",
+        txMethodPh: "Zahlungsart (Bar USD / IQD / Überweisung)",
+        txNotesPh: "Teile / Positionen / Notizen",
+        saveTxBtn: "Eintrag speichern",
+        ledgerEntries: "Finanzjournal",
+        thInv: "Rechnung",
+        thTxCust: "Kunde",
+        thTxType: "Typ",
+        thTxAmt: "USD / IQD",
+        thTxStatus: "Status",
+        thTxActions: "Aktionen",
+        pdfPreviewTitle: "PDF-Rechnungsvorschau",
+        exportPdfBtn: "PDF-Rechnung exportieren",
+        billedTo: "Rechnungsempfänger",
+        invTotals: "Summen",
+        invNotesLabel: "Details / Notizen",
+        addPart: "Werkstatteil / Lieferung hinzufügen",
+        partNamePh: "Teilebezeichnung (z. B. Actros MP4 Bremsbeläge)",
+        partOemPh: "OEM- / Teilenummer",
+        partCategoryPh: "Kategorie (Motor, Luft, Bremse...)",
+        condNew: "Neu",
+        condShipment: "Ankommende Lieferung",
+        condUsed: "Gebraucht / OEM",
+        partQtyLabel: "Menge",
+        partMinLabel: "Mindestbestand-Warnung",
+        partLocationPh: "Regal / Halle / Liefertermin",
+        partCostLabel: "Einkauf (USD)",
+        partPriceLabel: "Verkauf (USD)",
+        savePartBtn: "Teil speichern",
+        inventoryList: "Verbleibender Lagerbestand & Lieferungen",
+        partSearchPh: "Teil oder OEM suchen...",
+        thPart: "Teil",
+        thPartLoc: "Status / Lagerort",
+        thPartQty: "Menge",
+        thPartPrice: "Preis (USD)",
+        thPartAdj: "Anpassen"
+      }
     };
 
-    function setLanguage(lang) {
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el && val !== undefined) el.textContent = val;
+    }
+
+    function setPlaceholder(id, val) {
+      const el = document.getElementById(id);
+      if (el && val !== undefined) el.placeholder = val;
+    }
+
+    function applyTranslations(lang) {
       const pack = I18N[lang] || I18N.en;
       document.documentElement.lang = lang;
       document.documentElement.dir = pack.dir;
-      document.getElementById("t_loginTitle").textContent = pack.loginTitle;
-      document.getElementById("t_loginSub").textContent = pack.loginSub;
-      document.getElementById("t_emailLabel").textContent = pack.emailLabel;
-      document.getElementById("t_passwordLabel").textContent = pack.passwordLabel;
-      document.getElementById("t_loginBtn").textContent = pack.loginBtn;
+
+      setText("signOutBtn", pack.signOut);
+      setText("t_loginTitle", pack.loginTitle);
+      setText("t_loginSub", pack.loginSub);
+      setText("t_emailLabel", pack.emailLabel);
+      setText("t_passwordLabel", pack.passwordLabel);
+      setText("t_loginBtn", pack.loginBtn);
+
+      setText("t_kpiCustomers", pack.kpiCustomers);
+      setText("t_kpiInvoices", pack.kpiInvoices);
+      setText("t_kpiBalance", pack.kpiBalance);
+      setText("t_kpiParts", pack.kpiParts);
+
+      setText("tabBtn-customers", pack.tabCustomers);
+      setText("tabBtn-ledger", pack.tabLedger);
+      setText("tabBtn-inventory", pack.tabInventory);
+
+      setText("t_addCustomer", pack.addCustomer);
+      setPlaceholder("custName", pack.custNamePh);
+      setPlaceholder("custPhone", pack.custPhonePh);
+      setPlaceholder("custRegion", pack.custRegionPh);
+      setPlaceholder("custNotes", pack.custNotesPh);
+      setText("t_saveCustomerBtn", pack.saveCustomerBtn);
+      setText("t_customerList", pack.customerList);
+      setPlaceholder("custSearch", pack.custSearchPh);
+      setText("t_thCustName", pack.thCustName);
+      setText("t_thCustPhone", pack.thCustPhone);
+      setText("t_thCustRegion", pack.thCustRegion);
+      setText("t_thCustNotes", pack.thCustNotes);
+      setText("t_thCustAction", pack.thCustAction);
+
+      setText("t_newTx", pack.newTx);
+      setText("t_invNoLabel", pack.invNoLabel);
+      setText("t_txCustLabel", pack.txCustLabel);
+      setText("t_txTypeLabel", pack.txTypeLabel);
+      setText("t_optInvoice", pack.optInvoice);
+      setText("t_optPayment", pack.optPayment);
+      setText("t_txStatusLabel", pack.txStatusLabel);
+      setText("t_optDue", pack.optDue);
+      setText("t_optPartial", pack.optPartial);
+      setText("t_optPaid", pack.optPaid);
+      setText("t_txUsdLabel", pack.txUsdLabel);
+      setText("t_txIqdLabel", pack.txIqdLabel);
+      setPlaceholder("txMethod", pack.txMethodPh);
+      setPlaceholder("txNotes", pack.txNotesPh);
+      setText("t_saveTxBtn", pack.saveTxBtn);
+      setText("t_ledgerEntries", pack.ledgerEntries);
+      setText("t_thInv", pack.thInv);
+      setText("t_thTxCust", pack.thTxCust);
+      setText("t_thTxType", pack.thTxType);
+      setText("t_thTxAmt", pack.thTxAmt);
+      setText("t_thTxStatus", pack.thTxStatus);
+      setText("t_thTxActions", pack.thTxActions);
+      setText("t_pdfPreviewTitle", pack.pdfPreviewTitle);
+      setText("t_exportPdfBtn", pack.exportPdfBtn);
+      setText("t_billedTo", pack.billedTo);
+      setText("t_invTotals", pack.invTotals);
+      setText("t_invNotesLabel", pack.invNotesLabel);
+
+      setText("t_addPart", pack.addPart);
+      setPlaceholder("partName", pack.partNamePh);
+      setPlaceholder("partOem", pack.partOemPh);
+      setPlaceholder("partCategory", pack.partCategoryPh);
+      setText("t_condNew", pack.condNew);
+      setText("t_condShipment", pack.condShipment);
+      setText("t_condUsed", pack.condUsed);
+      setText("t_partQtyLabel", pack.partQtyLabel);
+      setText("t_partMinLabel", pack.partMinLabel);
+      setPlaceholder("partLocation", pack.partLocationPh);
+      setText("t_partCostLabel", pack.partCostLabel);
+      setText("t_partPriceLabel", pack.partPriceLabel);
+      setText("t_savePartBtn", pack.savePartBtn);
+      setText("t_inventoryList", pack.inventoryList);
+      setPlaceholder("partSearch", pack.partSearchPh);
+      setText("t_thPart", pack.thPart);
+      setText("t_thPartLoc", pack.thPartLoc);
+      setText("t_thPartQty", pack.thPartQty);
+      setText("t_thPartPrice", pack.thPartPrice);
+      setText("t_thPartAdj", pack.thPartAdj);
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem("actros_lang", lang);
+      applyTranslations(lang);
     }
 
     function saveFxRate() {
@@ -461,6 +925,9 @@
       document.getElementById("portalView").classList.remove("hidden");
       document.getElementById("signOutBtn").classList.remove("hidden");
       document.getElementById("fxRateInput").value = state.fxRate;
+      const savedLang = localStorage.getItem("actros_lang") || document.getElementById("langSelect").value || "en";
+      document.getElementById("langSelect").value = savedLang;
+      applyTranslations(savedLang);
       await loadAllData();
     }
 
@@ -705,6 +1172,9 @@
     }
 
     (async function init() {
+      const savedLang = localStorage.getItem("actros_lang") || "en";
+      document.getElementById("langSelect").value = savedLang;
+      applyTranslations(savedLang);
       if (!db) {
         document.getElementById("configBanner").classList.remove("hidden");
         return;
