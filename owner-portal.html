@@ -1099,7 +1099,7 @@ setText("t_optCredit", pack.optCredit);
       const tbody = document.getElementById("customersTableBody");
       tbody.innerHTML = rows.map(c => `
         <tr>
-          <td class="py-2 pr-3 font-semibold text-white">${escapeHtml(c.full_name)}</td>
+          <td class="py-2 pr-3 font-semibold text-amber-400 cursor-pointer hover:underline" onclick="openCustomerProfile('${c.id}')">${escapeHtml(c.full_name)}</td>
           <td class="py-2 pr-3 text-slate-300">${escapeHtml(c.phone || "-")}</td>
           <td class="py-2 pr-3 text-slate-300">${escapeHtml(c.city_region || "-")}</td>
           <td class="py-2 pr-3 text-slate-400">${escapeHtml(c.truck_notes || "-")}</td>
@@ -1174,6 +1174,122 @@ setText("t_optCredit", pack.optCredit);
           </tr>
         `;
       }).join("") || `<tr><td colspan="6" class="py-4 text-center text-slate-400">No ledger entries yet</td></tr>`;
+    }
+    function openCustomerProfile(customerId) {
+      const cust = state.customers.find(c => c.id === customerId);
+      if (!cust) return;
+
+      const entries = state.transactions.filter(t => t.customer_id === customerId);
+      let billedUsd = 0, billedIqd = 0, paidUsd = 0, paidIqd = 0;
+
+      for (const tx of entries) {
+        if (tx.entry_type === "invoice") {
+          billedUsd += Number(tx.amount_usd || 0);
+          billedIqd += Number(tx.amount_iqd || 0);
+        } else if (tx.entry_type === "payment") {
+          paidUsd += Number(tx.amount_usd || 0);
+          paidIqd += Number(tx.amount_iqd || 0);
+        }
+      }
+
+      const balanceUsd = Math.max(0, billedUsd - paidUsd);
+      const balanceIqd = Math.max(0, billedIqd - paidIqd);
+
+      document.getElementById("customerProfilePanel").classList.remove("hidden");
+      document.getElementById("profCustName").textContent = cust.full_name;
+      document.getElementById("profCustMeta").textContent =
+        [cust.phone, cust.city_region, cust.truck_notes].filter(Boolean).join(" • ") || "—";
+      document.getElementById("profSummaryUsd").textContent =
+        `Billed: ${formatUsd(billedUsd)} | Paid: ${formatUsd(paidUsd)} | Due: ${formatUsd(balanceUsd)}`;
+      document.getElementById("profSummaryIqd").textContent =
+        `Billed: ${formatIqd(billedIqd)} | Paid: ${formatIqd(paidIqd)} | Due: ${formatIqd(balanceIqd)}`;
+      document.getElementById("downloadStatementBtn").onclick = () => downloadCustomerStatementPdf(cust.id);
+
+      const body = document.getElementById("profTxBody");
+      body.innerHTML = entries.map(tx => `
+        <tr>
+          <td class="py-2 pr-2 font-mono text-amber-300">${escapeHtml(tx.invoice_no)}</td>
+          <td class="py-2 pr-2">${new Date(tx.created_at).toLocaleDateString()}</td>
+          <td class="py-2 pr-2 capitalize text-slate-300">${escapeHtml(tx.entry_type)}</td>
+          <td class="py-2 pr-2 text-white">${formatUsd(tx.amount_usd)} / ${formatIqd(tx.amount_iqd)}</td>
+          <td class="py-2 pr-2 text-slate-200">${escapeHtml(tx.status)}</td>
+          <td class="py-2 text-right">
+            ${tx.entry_type === "payment"
+              ? `<button onclick="deletePayment('${tx.id}', '${cust.id}')" class="rounded bg-rose-500/20 px-2 py-1 text-rose-300 hover:bg-rose-500/30">Delete</button>`
+              : `<span class="text-slate-500">—</span>`}
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="6" class="py-3 text-center text-slate-400">No entries for this customer</td></tr>`;
+    }
+
+    async function deletePayment(txId, customerId) {
+      if (!db) return;
+      const tx = state.transactions.find(t => t.id === txId);
+      if (!tx || tx.entry_type !== "payment") return;
+      if (!confirm(`Delete payment ${tx.invoice_no}?`)) return;
+
+      const { error } = await db
+        .from("transactions")
+        .delete()
+        .eq("id", txId)
+        .eq("entry_type", "payment");
+
+      if (error) return alert(error.message);
+      await loadAllData();
+      if (customerId) openCustomerProfile(customerId);
+    }
+
+    async function downloadCustomerStatementPdf(customerId) {
+      const cust = state.customers.find(c => c.id === customerId);
+      const sheet = document.getElementById("customerStatementSheet");
+      const JsPDF = window.jspdf?.jsPDF || window.jsPDF;
+      if (!cust || !sheet || !JsPDF) return;
+
+      if (typeof html2canvas === "function") {
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "fixed";
+        wrapper.style.left = "-9999px";
+        wrapper.style.top = "0";
+        wrapper.style.width = "794px";
+        wrapper.style.background = "#ffffff";
+        wrapper.style.padding = "24px";
+        wrapper.setAttribute("lang", document.documentElement.lang || "en");
+        wrapper.setAttribute("dir", document.documentElement.dir || "ltr");
+
+        const header = document.createElement("div");
+        header.style.marginBottom = "12px";
+        header.innerHTML = `
+          <h2 style="margin:0;font-size:18px;font-weight:800;color:#0f172a;">Ahmed Actros | أحمد أكتروس — Statement</h2>
+          <p style="margin:4px 0 0;font-size:13px;font-weight:700;color:#0f172a;">${escapeHtml(cust.full_name)}</p>
+          <p style="margin:2px 0 0;font-size:11px;color:#475569;">${escapeHtml([cust.phone, cust.city_region].filter(Boolean).join(" • "))}</p>
+        `;
+
+        const clone = sheet.cloneNode(true);
+        wrapper.appendChild(header);
+        wrapper.appendChild(clone);
+        document.body.appendChild(wrapper);
+
+        try {
+          const canvas = await html2canvas(wrapper, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+          const imgData = canvas.toDataURL("image/png");
+          const doc = new JsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const usableWidth = pageWidth - 20;
+          const imgHeight = (canvas.height * usableWidth) / canvas.width;
+          doc.addImage(imgData, "PNG", 10, 10, usableWidth, Math.min(imgHeight, doc.internal.pageSize.getHeight() - 20));
+          const safeName = (cust.full_name || "customer").replace(/[^a-z0-9-_]+/gi, "_");
+          doc.save(`Statement_${safeName}.pdf`);
+          return;
+        } finally {
+          wrapper.remove();
+        }
+      }
+
+      const doc = new JsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text(`Statement - ${cust.full_name}`, 14, 20);
+      doc.save(`Statement_${(cust.full_name || "customer").replace(/[^a-z0-9-_]+/gi, "_")}.pdf`);
     }
 
     function downloadInvoicePdf() {
