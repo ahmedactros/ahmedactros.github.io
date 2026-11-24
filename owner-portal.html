@@ -1170,11 +1170,30 @@ setText("t_optCredit", pack.optCredit);
             <td class="py-2 pr-2 text-slate-200">${escapeHtml(tx.status)}</td>
             <td class="py-2 text-right space-x-1">
               <button onclick="selectInvoiceForPreview('${tx.id}')" class="rounded bg-amber-500/20 px-2 py-1 text-amber-300 hover:bg-amber-500/30">Preview</button>
+                  ${tx.entry_type === "payment" ? `<button onclick="deletePayment('${tx.id}', '${tx.customer_id || ""}')" class="rounded bg-rose-500/20 px-2 py-1 text-rose-300 hover:bg-rose-500/30">Delete</button>` : ``}
             </td>
           </tr>
         `;
       }).join("") || `<tr><td colspan="6" class="py-4 text-center text-slate-400">No ledger entries yet</td></tr>`;
     }
+        function ensureHtml2Canvas() {
+      return new Promise((resolve) => {
+        if (typeof window.html2canvas === "function") return resolve(true);
+        const existing = document.querySelector('script[data-auto-html2canvas="1"]');
+        if (existing) {
+          existing.addEventListener("load", () => resolve(typeof window.html2canvas === "function"), { once: true });
+          existing.addEventListener("error", () => resolve(false), { once: true });
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+        script.dataset.autoHtml2canvas = "1";
+        script.onload = () => resolve(typeof window.html2canvas === "function");
+        script.onerror = () => resolve(false);
+        document.head.appendChild(script);
+      });
+    }
+
     function openCustomerProfile(customerId) {
       const cust = state.customers.find(c => c.id === customerId);
       if (!cust) return;
@@ -1195,31 +1214,37 @@ setText("t_optCredit", pack.optCredit);
       const balanceUsd = Math.max(0, billedUsd - paidUsd);
       const balanceIqd = Math.max(0, billedIqd - paidIqd);
 
-      document.getElementById("customerProfilePanel").classList.remove("hidden");
-      document.getElementById("profCustName").textContent = cust.full_name;
-      document.getElementById("profCustMeta").textContent =
-        [cust.phone, cust.city_region, cust.truck_notes].filter(Boolean).join(" • ") || "—";
-      document.getElementById("profSummaryUsd").textContent =
-        `Billed: ${formatUsd(billedUsd)} | Paid: ${formatUsd(paidUsd)} | Due: ${formatUsd(balanceUsd)}`;
-      document.getElementById("profSummaryIqd").textContent =
-        `Billed: ${formatIqd(billedIqd)} | Paid: ${formatIqd(paidIqd)} | Due: ${formatIqd(balanceIqd)}`;
-      document.getElementById("downloadStatementBtn").onclick = () => downloadCustomerStatementPdf(cust.id);
+      const panel = document.getElementById("customerProfilePanel");
+      if (panel) {
+        panel.classList.remove("hidden");
+        panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      setText("profCustName", cust.full_name);
+      setText("profCustMeta", [cust.phone, cust.city_region, cust.truck_notes].filter(Boolean).join(" • ") || "—");
+      setText("profSummaryUsd", `Billed: ${formatUsd(billedUsd)} | Paid: ${formatUsd(paidUsd)} | Due: ${formatUsd(balanceUsd)}`);
+      setText("profSummaryIqd", `Billed: ${formatIqd(billedIqd)} | Paid: ${formatIqd(paidIqd)} | Due: ${formatIqd(balanceIqd)}`);
+
+      const dlBtn = document.getElementById("downloadStatementBtn");
+      if (dlBtn) dlBtn.onclick = () => downloadCustomerStatementPdf(cust.id);
 
       const body = document.getElementById("profTxBody");
+      if (!body) return;
+
       body.innerHTML = entries.map(tx => `
         <tr>
-          <td class="py-2 pr-2 font-mono text-amber-300">${escapeHtml(tx.invoice_no)}</td>
-          <td class="py-2 pr-2">${new Date(tx.created_at).toLocaleDateString()}</td>
-          <td class="py-2 pr-2 capitalize text-slate-300">${escapeHtml(tx.entry_type)}</td>
-          <td class="py-2 pr-2 text-white">${formatUsd(tx.amount_usd)} / ${formatIqd(tx.amount_iqd)}</td>
-          <td class="py-2 pr-2 text-slate-200">${escapeHtml(tx.status)}</td>
+          <td class="py-2 pr-2 font-mono font-semibold text-amber-700">${escapeHtml(tx.invoice_no)}</td>
+          <td class="py-2 pr-2 text-slate-700">${new Date(tx.created_at).toLocaleDateString()}</td>
+          <td class="py-2 pr-2 capitalize text-slate-800">${escapeHtml(tx.entry_type)}</td>
+          <td class="py-2 pr-2 font-semibold text-slate-900">${formatUsd(tx.amount_usd)} / ${formatIqd(tx.amount_iqd)}</td>
+          <td class="py-2 pr-2 text-slate-700">${escapeHtml(tx.status)}</td>
           <td class="py-2 text-right">
             ${tx.entry_type === "payment"
-              ? `<button onclick="deletePayment('${tx.id}', '${cust.id}')" class="rounded bg-rose-500/20 px-2 py-1 text-rose-300 hover:bg-rose-500/30">Delete</button>`
-              : `<span class="text-slate-500">—</span>`}
+              ? `<button type="button" onclick="deletePayment('${tx.id}', '${cust.id}')" class="rounded bg-rose-600/15 px-2 py-1 font-semibold text-rose-700 hover:bg-rose-600/25">Delete</button>`
+              : `<span class="text-slate-400">—</span>`}
           </td>
         </tr>
-      `).join("") || `<tr><td colspan="6" class="py-3 text-center text-slate-400">No entries for this customer</td></tr>`;
+      `).join("") || `<tr><td colspan="6" class="py-4 text-center text-slate-500">No entries for this customer</td></tr>`;
     }
 
     async function deletePayment(txId, customerId) {
@@ -1245,23 +1270,43 @@ setText("t_optCredit", pack.optCredit);
       const JsPDF = window.jspdf?.jsPDF || window.jsPDF;
       if (!cust || !sheet || !JsPDF) return;
 
-      if (typeof html2canvas === "function") {
+      const entries = state.transactions.filter(t => t.customer_id === customerId);
+      let billedUsd = 0, billedIqd = 0, paidUsd = 0, paidIqd = 0;
+      for (const tx of entries) {
+        if (tx.entry_type === "invoice") {
+          billedUsd += Number(tx.amount_usd || 0);
+          billedIqd += Number(tx.amount_iqd || 0);
+        } else if (tx.entry_type === "payment") {
+          paidUsd += Number(tx.amount_usd || 0);
+          paidIqd += Number(tx.amount_iqd || 0);
+        }
+      }
+      const dueUsd = Math.max(0, billedUsd - paidUsd);
+      const dueIqd = Math.max(0, billedIqd - paidIqd);
+
+      const hasCanvas = await ensureHtml2Canvas();
+      if (hasCanvas) {
         const wrapper = document.createElement("div");
         wrapper.style.position = "fixed";
         wrapper.style.left = "-9999px";
         wrapper.style.top = "0";
         wrapper.style.width = "794px";
         wrapper.style.background = "#ffffff";
+        wrapper.style.color = "#0f172a";
         wrapper.style.padding = "24px";
         wrapper.setAttribute("lang", document.documentElement.lang || "en");
         wrapper.setAttribute("dir", document.documentElement.dir || "ltr");
 
         const header = document.createElement("div");
-        header.style.marginBottom = "12px";
+        header.style.marginBottom = "14px";
+        header.style.borderBottom = "1px solid #cbd5e1";
+        header.style.paddingBottom = "10px";
         header.innerHTML = `
-          <h2 style="margin:0;font-size:18px;font-weight:800;color:#0f172a;">Ahmed Actros | أحمد أكتروس — Statement</h2>
-          <p style="margin:4px 0 0;font-size:13px;font-weight:700;color:#0f172a;">${escapeHtml(cust.full_name)}</p>
-          <p style="margin:2px 0 0;font-size:11px;color:#475569;">${escapeHtml([cust.phone, cust.city_region].filter(Boolean).join(" • "))}</p>
+          <h2 style="margin:0;font-size:18px;font-weight:800;color:#0f172a;">Ahmed Actros | أحمد أكتروس — Customer Statement</h2>
+          <p style="margin:6px 0 0;font-size:14px;font-weight:700;color:#0f172a;">${escapeHtml(cust.full_name)}</p>
+          <p style="margin:2px 0 0;font-size:11px;color:#475569;">${escapeHtml([cust.phone, cust.city_region, cust.truck_notes].filter(Boolean).join(" • "))}</p>
+          <p style="margin:6px 0 0;font-size:11px;font-weight:600;color:#0f172a;">USD: Billed ${formatUsd(billedUsd)} | Paid ${formatUsd(paidUsd)} | Due ${formatUsd(dueUsd)}</p>
+          <p style="margin:2px 0 0;font-size:11px;font-weight:600;color:#334155;">IQD: Billed ${formatIqd(billedIqd)} | Paid ${formatIqd(paidIqd)} | Due ${formatIqd(dueIqd)}</p>
         `;
 
         const clone = sheet.cloneNode(true);
@@ -1270,7 +1315,7 @@ setText("t_optCredit", pack.optCredit);
         document.body.appendChild(wrapper);
 
         try {
-          const canvas = await html2canvas(wrapper, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
+          const canvas = await window.html2canvas(wrapper, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
           const imgData = canvas.toDataURL("image/png");
           const doc = new JsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
           const pageWidth = doc.internal.pageSize.getWidth();
@@ -1289,8 +1334,12 @@ setText("t_optCredit", pack.optCredit);
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
       doc.text(`Statement - ${cust.full_name}`, 14, 20);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(`USD Due: ${formatUsd(dueUsd)} | IQD Due: ${formatIqd(dueIqd)}`, 14, 28);
       doc.save(`Statement_${(cust.full_name || "customer").replace(/[^a-z0-9-_]+/gi, "_")}.pdf`);
     }
+
 
     function downloadInvoicePdf() {
   const invNo = document.getElementById("invPreviewNo")?.textContent?.trim() || "INV-2026-0001";
