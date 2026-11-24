@@ -1170,6 +1170,7 @@ setText("t_optCredit", pack.optCredit);
             <td class="py-2 pr-2 text-slate-200">${escapeHtml(tx.status)}</td>
             <td class="py-2 text-right space-x-1">
               <button onclick="selectInvoiceForPreview('${tx.id}')" class="rounded bg-amber-500/20 px-2 py-1 text-amber-300 hover:bg-amber-500/30">Preview</button>
+             <button type="button" onclick="openEditTransaction('${tx.id}')" class="rounded bg-sky-500/20 px-2 py-1 text-sky-300 hover:bg-sky-500/30">Edit</button>
                   ${tx.entry_type === "payment" ? `<button onclick="deletePayment('${tx.id}', '${tx.customer_id || ""}')" class="rounded bg-rose-500/20 px-2 py-1 text-rose-300 hover:bg-rose-500/30">Delete</button>` : ``}
             </td>
           </tr>
@@ -1490,6 +1491,62 @@ setText("t_optCredit", pack.optCredit);
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
     }
+    function openEditTransaction(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      const modal = document.getElementById("editTxModal");
+      if (!tx || !modal) return;
+
+      document.getElementById("editTxId").value = tx.id;
+      document.getElementById("editTxCustomerId").value = tx.customer_id || "";
+      document.getElementById("editTxTitle").textContent =
+        `Edit ${tx.entry_type === "payment" ? "Payment" : "Invoice"} — ${tx.invoice_no || ""}`;
+      document.getElementById("editTxUsd").value = Number(tx.amount_usd || 0);
+      document.getElementById("editTxIqd").value = Math.round(Number(tx.amount_iqd || 0));
+      document.getElementById("editTxStatus").value = tx.status || "Due";
+      document.getElementById("editTxMethod").value = tx.payment_method || "";
+      document.getElementById("editTxNotes").value = tx.notes || "";
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeEditTransactionModal() {
+      const modal = document.getElementById("editTxModal");
+      if (!modal) return;
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    async function saveEditedTransaction(e) {
+      e.preventDefault();
+      if (!db) return;
+
+      const txId = document.getElementById("editTxId").value;
+      const customerId = document.getElementById("editTxCustomerId").value;
+      const amountUsd = Number(document.getElementById("editTxUsd").value || 0);
+      const amountIqd = Math.round(Number(document.getElementById("editTxIqd").value || 0));
+      const status = document.getElementById("editTxStatus").value;
+      const paymentMethod = document.getElementById("editTxMethod").value.trim();
+      const notes = document.getElementById("editTxNotes").value.trim();
+
+      const { error } = await db
+        .from("transactions")
+        .update({
+          amount_usd: amountUsd,
+          amount_iqd: amountIqd,
+          status,
+          payment_method: paymentMethod,
+          notes
+        })
+        .eq("id", txId);
+
+      if (error) return alert(error.message);
+
+      closeEditTransactionModal();
+      await loadAllData();
+      if (typeof selectInvoiceForPreview === "function") selectInvoiceForPreview(txId);
+      if (customerId && typeof openCustomerProfile === "function") openCustomerProfile(customerId);
+    }
 
     (async function init() {
       const savedLang = localStorage.getItem("actros_lang") || "en";
@@ -1506,5 +1563,54 @@ setText("t_optCredit", pack.optCredit);
       }
     })();
   </script>
+  <div id="editTxModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+    <div class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-5 text-slate-100 shadow-xl">
+      <div class="mb-3 flex items-center justify-between">
+        <h3 id="editTxTitle" class="text-base font-bold text-amber-300">Edit Entry</h3>
+        <button type="button" onclick="closeEditTransactionModal()" class="rounded bg-slate-800 px-2 py-1 text-xs text-slate-300 hover:bg-slate-700">✕</button>
+      </div>
+
+      <form id="editTxForm" onsubmit="saveEditedTransaction(event)" class="space-y-3">
+        <input type="hidden" id="editTxId" />
+        <input type="hidden" id="editTxCustomerId" />
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="mb-1 block text-xs text-slate-300">Amount (USD)</label>
+            <input id="editTxUsd" type="number" step="0.01" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white" />
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-slate-300">Amount (IQD)</label>
+            <input id="editTxIqd" type="number" step="1" required class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="mb-1 block text-xs text-slate-300">Status</label>
+            <select id="editTxStatus" class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white">
+              <option value="Due">Due</option>
+              <option value="Partial">Partial</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+          <div>
+            <label class="mb-1 block text-xs text-slate-300">Payment Method</label>
+            <input id="editTxMethod" type="text" class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white" />
+          </div>
+        </div>
+
+        <div>
+          <label class="mb-1 block text-xs text-slate-300">Details / Parts / Notes</label>
+          <textarea id="editTxNotes" rows="2" class="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeEditTransactionModal()" class="rounded-lg bg-slate-800 px-3 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-700">Cancel</button>
+          <button type="submit" class="rounded-lg bg-amber-400 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-amber-300">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
